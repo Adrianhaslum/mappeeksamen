@@ -1,6 +1,6 @@
 ---
 title: "Assignment 1: Reliability and tools for reproducible data science"
-author: "Adrian Haslum Kristiansen"
+author: "Kandidat 513"
 date: "2024-11-22"
 bibliography: resources/references.bib
 ---

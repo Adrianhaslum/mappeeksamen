@@ -1,6 +1,6 @@
 ---
 title: "Assignement-4-Study-Design"
-author: "Adrian Haslum Kristiansen" 
+author: "Kandidat 513" 
 bibliography: resources/references.bib
 ---
 
@@ -15,7 +15,7 @@ Denne rapporten skal undersøke styrketrening og hvilken effekt det kan påføre
 
 Til tross for variasjoner i resultatene, viser studiene flere fellestrekk. Alle benytter et randomisert kontrollert studie design (RCT). RCT er ansett som "gullstandarden" for å undersøke årsakssammenheng. Ved randomisert fordeling av forsøkspersoner i ulike grupperinger, reduserer RCT-studier risiko for systematiske feil, og bidrar dermed til mer pålitelige konklusjoner om effekten medført av treningsintensitet. De fleste studiene benytter seg også av standardiserte metoder for å måle hypertrofi, som ultralyd, CT-skann eller muskelbiopsi, i tillegg til 1RM tester for å måle endring av maksimal styrke.
 
-Vedrørende statistiske analyser, finner vi noe variasjon mellom studiene. For eksempel benytter Grgic et al. (2022) en ANOVA-test for å sammenligne effekt av høy- og lavintensitetstrening, men Bradley et al. (2023) benytter derimpot seg av t-tester og regresjonsanalyser for å undersøke sammenhengen av treningsmetoder for hypertrofi og muskelstyrke. Thiago et al. (2022) benytter ANCOVA, som justerer for differanser i utgangspunkt mellom de ulike gruppene. Dette bidrar til å kunne produsere en mer presis evaluering på hvordan treningsintensitet medvirker til muskulære adaptasjoner. 
+Vedrørende statistiske analyser, finner vi noe variasjon mellom studiene. For eksempel benytter Grgic et al. (2021) en ANOVA-test for å sammenligne effekt av høy- og lavintensitetstrening, men Bradley et al. (2023) benytter derimpot seg av t-tester og regresjonsanalyser for å undersøke sammenhengen av treningsmetoder for hypertrofi og muskelstyrke. Lasevicius et al. (2018) benytter ANCOVA, som justerer for differanser i utgangspunkt mellom de ulike gruppene. Dette bidrar til å kunne produsere en mer presis evaluering på hvordan treningsintensitet medvirker til muskulære adaptasjoner. 
 
 Til tross for noen varisjoner i metodikk og fokusretning, peker studiene mot betydningen bak intensiteten for muskulære adaptasjoner, og på samme tid fremhever at ulike analysemetoder kan avdekke nyanserte aspekter av treningsrespons. 
 
@@ -23,7 +23,7 @@ Til tross for noen varisjoner i metodikk og fokusretning, peker studiene mot bet
 
 Alle inkluderte studier benytter seg av randomiserte kontrollgrupper, noe som er ansett som "gullstandard" for å undersøke årsakssammenheng. En slik tilnærming bidrar til å styrke validitet av resultater ved å minimere bias og sikre en rettferdig fordeling av variabler mellom gruppene. Majoriteten av studiene tar forbehold om tidligere treningshistorikk, noe som bidrar til at resultatene mer spesifikt reflekterer effekten til aktuell intervensjon. Det benyttes også pålitelige og relevante målemetoder, noe som tillater å kunne sammenligne effekt av trening på hypertrofi og styrke på en systematisk måte. 
 
-Det må understrekes at det er enkelte begrensninger som burde bli tatt i betraktning. Flere av studiene baseres på mindre utvalgsstørrelser, og dette kan dekke over statistisk styrke, og gjøre det mer utfordrende å trekke generelle konklusjoner. For eksempel har Grgic et al. (2022) kun et utvalg av 30 forsøkspersoner, og dette bidrar til økt risiko for tilfeldig feil, og kan redusere påliteligheten av resultatene. I tillegg er treningsintervensjonene ofte korte (8-12 uker), som gir begrenset innsikt i langvarige effekter ved styrketrening på muskulære adaptasjoner. For å kunne fortelle noe om varige resultater, vil studier som strekker seg over lengre tidsperioder vært av stor verdi. 
+Det må understrekes at det er enkelte begrensninger som burde bli tatt i betraktning. Flere av studiene baseres på mindre utvalgsstørrelser, og dette kan dekke over statistisk styrke, og gjøre det mer utfordrende å trekke generelle konklusjoner. For eksempel har Grgic et al. (2021) kun et utvalg av 30 forsøkspersoner, og dette bidrar til økt risiko for tilfeldig feil, og kan redusere påliteligheten av resultatene. I tillegg er treningsintervensjonene ofte korte (8-12 uker), som gir begrenset innsikt i langvarige effekter ved styrketrening på muskulære adaptasjoner. For å kunne fortelle noe om varige resultater, vil studier som strekker seg over lengre tidsperioder vært av stor verdi. 
 
 En annen utfordring er forsøkspersonenes treningsbakgrunn. Flere av de inkluderte studiene viser til forsøkspersoner med treningsbakgrunn. Dette kan være med på å gi verdifull informasjon på allerede trente personer, men kan medvirke til utfordringer til å kunne fortelle om funnene kan videreføres til den generelle befolkningen eller utrente. For å styrke ekstern valliditet ville det vært gunstig med inkludering av mer variert utvalg av forsøkspersoner.
 
@@ -36,7 +36,7 @@ En annen utfordring er forsøkspersonenes treningsbakgrunn. Flere av de inkluder
  
 I kontrast til ANOVA, som kun ser på forskjeller mellom gruppenes gjennomsnitt, tillater regresjons- og blandede modeller en dypere undersøkelse av hvordan ulike på samme tid kan medvirke til adaptasjoner. Slike metoder kan avdekke hvordan genetisk prediskjon, intensitet og tidligere treningserfaring påvirker de muskulære responsene. 
 
-Thiago et al. (2022) benyttet seg av både regresjonsmodeller og blandede modeller i sine undersøkelser. Dette resulterte i mer detaljrik innsikt sammenlignet tradisjonelle statistiske metoder som ble anvendt i flere av de andre studiene. Slike tilnærminger kan hjelpe forskere med å identifisere hvordan treningen kan optimaliseres for individer med ulik forutsetning, samt for en generell "masse". 
+Lasevicius et al. (2018) benyttet seg av både regresjonsmodeller og blandede modeller i sine undersøkelser. Dette resulterte i mer detaljrik innsikt sammenlignet tradisjonelle statistiske metoder som ble anvendt i flere av de andre studiene. Slike tilnærminger kan hjelpe forskere med å identifisere hvordan treningen kan optimaliseres for individer med ulik forutsetning, samt for en generell "masse". 
 
 Ved å kombinere bruken av både tradisjonelle metoder med både regresjons- og blandede modeller, kan fremtidige studier bidra til en dypere forståelse av underliggende mekanismer, som er medvirkende på hypertrofi og maksimal styrke, og utvikling av mer optimaliserte treningsstrategier. 
 

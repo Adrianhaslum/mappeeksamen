@@ -1,6 +1,6 @@
 ---
 title: "Laboratory Report"
-author: "Adrian Haslum Kristiansen"
+author: "Kandidat 513"
 bibliography: resources/references.bib
 format: pdf
 ---

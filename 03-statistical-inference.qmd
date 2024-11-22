@@ -1,6 +1,6 @@
 ---
 title: "Statistical Inference"
-author: "Adrian Haslum Kristiansen"
+author: "Kandidat 513"
 date: "2024-11-22"
 bibliography: resources/references.bib
 ---

@@ -1,6 +1,12 @@
 # Introduksjon til mappetemplat og Lærinsgrefleksjon {.unnumbered}
 
-Emnet IDR4000, kvantitativ metode og statistikk bruker mappeeksamen som evalueringsform. Dette er et "templat" for skriving og innlevering av eksamen. Lag en egen versjon av templatet ved å laste ned det (fork) fra GitHub og bruk denne som utgangspunkt. Ta vekk alle instruksjoner før du leverer den siste versjonen av din mappe. Du kan levere den samme mappen med aktuelle deler oppdaterte i løpet av emnet. 
+## Forord 
+
+Ønsker å takke Daniel for god hjelp og veiledning, innlæring av Rstudio viste seg og være både svært utfordrende og frustrerende for en ung kar som ikke engang forsto seg på Excel. 
+
+Ønsker også og rette en takk til, Jens-Henrik, Anders, Sivert og Ole-Kristian for sammarbeid i lab-undervisningen, med sammarbeid av labrapporter og assignement 1-2. Det har vært en lærerik og morsom opplevelse.
+
+Lenke til repository: https://github.com/Adrianhaslum/mappeeksamen.git
 
 Mappeeksamen består av følgende deler: 
 
