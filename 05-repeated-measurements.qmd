@@ -1,0 +1,323 @@
+---
+title: "Assignement-5-Study-Design"
+author: "Adrian Haslum Kristiansen" 
+format: pdf
+editor: visual
+bibliography: resources/references.bib
+---
+
+## Innleding 
+
+Styrketrening er vist seg å være en effektiv fremgangsmåte for å både øke tverrsnittsarealet i skjelettmuskulaturen vår, samt øke egenskapen til å generere maksimal kraft, også omtalt som styrken vår. Styrketrening er spiller en viktig rolle for svært mange, uavhening av forutsetning eller målsetning med treningen. Blandt annet er tung styrketrening meget effektivt for å motvirke enkelte sykdommer eller lidelser, som for eksempel osteoporose. Videre er denne treningsformen en viktig del av treningen for de aller fleste idrettsutøvere, uavhengig om utøveren konkurrerer i en styrkeidrett eller utholdenhetsidrett. Men hva er egentlig styrketrening? Kort forklart er styrketrening all trening som er tiltenkt å bedre eller vedlikeholde vår evne til å produsere maksimal kraft (Raastad et al. s, 13). 
+
+Om vi trener for enten økning i styrke, muskelmasse eller for egen helse, så er treningsvolum en essensiell faktor som kan virke bestemmende for progresjon. Treningsvolum omfatter det totale arbeidet som utføres, og bestemmes av belastning, antall serier, repetisjoner og trenings frekvensen. Treningsvolum har i lang tid vært et viktig tema, dette skyldes at det vil være svært fordelaktig å finne et optimalt volum som maksimerer styrkeøkning og muskelvekst, men som samtidig minimerer risiko for skader eller tap av prestasjon (Schoenfeld et al., 2017). 
+
+Schoenfeld (2013) forteller at treningsvolum er en av de mest essensielle faktorene som fører til muskelvekst, og hvor et høyere volum medfører økt vekst. Videre forteller Krieger (2010) at et høyere treningsvolum kan medføre både positive og negative konsekvenser, bestemt av individets nåværende treningsstatus. Det virker å være et vippepunkt ved et høyere treningsvolum, uten at det enkelt kan konkretiseres hva som er nok eller for mye. Høyere treningsvolum kan bidra til å øke rekruttering av motoriske enheter, og vil kunne virke gunstig for både muskelvekst og styrkeøkning. Men ved for høyt volum kan det medføre muskelødem og økt restitusjonstid (Häkkinen et al., 1998; Kraemer et al., 2002). 
+
+For mange er prestasjonen en svært essensiell faktor, og her kan treningsvolum være faktor som kan påvirke denne. Et høyere volum kan medføre mer muskelvekst, men dette på bekostningen av mer "delayed onset muscle soreness" (DOMS), og det kan medføre en økt restitusjonstid (Schoenfeld et al., 2017) I kontrast til dette kan det virke som at et lavere treningsvolum kan virke mindre belastende for kroppen vår. Og dette kan ifølge Schoenfeld et at. (2017) være gunstig for å øke motorenhetrekruttering per repetisjon, og dette kan derav være gunstig for maksimal styrke. Videre på dette vil lavere treningsvolum ifølge Krieger (2010) kunne åpne opp for en høyere treningsfrekvens.
+
+
+## Metode
+
+### Deltakere og studieoversikt
+
+Undersøkelsen inkluderte totalt 41 voksne deltakere, både kvinner og menn i alderen 18-40 år. For å kunne sikre et pålitelig resultat, måtte forsøkspersonene være ikke-røykere, og ha en begrenset tidligere treningshistorikk med styrketrening. Ingen av de inkluderte forsøkspersonene hadde gjennomført mer enn en styrkeøkt per uke innenfor en tidsramme på 12 måneder før intervensjonen. Individer med tidligere eller nåværende muskel- eller skjelettskader som kunne medføre til reduksjon av styrke, ble ekskludert. Dette gjaldt også ved bruk av faste medikamenter som kunne påvirke treningsadaptasjon. 
+
+Underveis i intervensjonen ble totalt syv forsøkspersoner eksludert fra dataanalysene. Dette skyldtes manglende oppfyllelse av kravene til protokoll for minimum 85% deltagelse av alle treningsøkter. Årsakene til frafall skyldtes ubehag eller smerter i underekstremitetene i trening (n = 5), en skade ikke relatert til undersøkelsen (n = 1), og manglende overholdelse av studieprotokoll (n = 1).
+
+Ved baseline hadde alle forsøkspersoner en form for bakgrunn av idrettsaktivitet. Aktivitetene varierte mellom lagidrett, langrenn eller turn. Av de 41 inkluderte forsøkspersonene  ble det rapportert fra 20 forsøkspersoner at de deltok i regelmessig fysisk aktivitet, inntil to økter per uke, hvor 10 av disse trente styrke sporadisk. 
+
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| label: tbl-participants
+#| tbl-cap: "Deltakeroversikt"
+
+
+library(tidyverse); library(exscidata); library(gt)
+
+exscidata::dxadata %>%
+  filter(time == "pre",
+         include == "incl") %>%
+  select(participant, sex, age, height, weight) %>%
+  pivot_longer(names_to = "variable",
+               values_to = "value",
+               cols = age:weight) %>%
+  summarise(.by = c(sex, variable),
+            m = mean(value),
+            s = sd(value),
+            n = n()) %>%
+  
+  mutate(sex = if_else(sex == "male", "Male", "Female"),
+         sex = paste0(sex, " n = ", n),
+         stat = paste0(round(m, 1),
+                       " (",
+                       round(s, 1),
+                       ")")) %>%
+  dplyr::select(sex, variable, stat) %>%
+  pivot_wider(names_from = variable,
+              values_from = stat) %>%
+   gt() %>%
+  cols_label(sex = "",
+             age = "Age (years)",
+             weight = "Body mass (kg)",
+             height = "Stature (cm)")
+```
+
+
+### Studie design 
+
+#### Mål av muskelmasse 
+
+Tverrsnittsarealet (CSA) for muskelgruppen quadriceps ble målt både før og etter intervensjonen. Dette ble gjort ved bruk av magnetisk resononsavbildning (MRI). Undersøkelsene ble utført ved bruk av en S-scan (Esaote Europe B.V., Maastricht, Nederland), og ble utført i tråd med produsentens egne spesifikasjoner. Bildematrialene ble analysert anonymt av en tekniker. Til dette ble analyseverktøyet OsiriX (v.5.6, Pixmeo Sarl, Bernex, Sveits). For å tilrettelegge til nøyaktighet ble CSA standardisert i samme avstand fra kneledd for alle forsøkspersoner. Minimim fire sammenhengende snittbilder (5 mm tykkelse med 10 mm mellomrom) ble inkludert i analysen.
+
+I tillegg til måling av CSA, ble det også målt kroppssammensetning, dette ble gjort med hjelp av DXA (Dual-energy X-ray Absorptiometry) med et Lunar Prodigy-system GE Healthcare, Oslo, Norge). Også denne prosedyren ble utført i henhold til etablert protokoll. 
+
+For å tilrettelegge for konsistente resultater, ble forsøkspersonene instruert om å faste minimum to timer før både MRI- og DXA-undersøkelsene, de skulle også unngå har fysisk aktivitet 48 timer før testene. Etter intervensjonens avslutning ble det tilrettelagt for to dager hvile før postintervensjonsmålinger. 
+
+#### Mål av maksimal styrke
+
+Maksimal styrke i muskelgruppen quadriceps ble utført ved hjelp av en 1RM-test (1 repetisjon maks) i øvelsen unilateral beinpress. Testing fulgte en streng strukturert protokoll, forå kunne sikre sammenlignbare resultater mellom alle forsøkspersoner. Testingen startet med en standardisert oppvarmingsprotokoll, forsøkspersonene utførte 10 repetisjoner på 50% av antatt 1RM, etterfulgt av 6 repetisjoner på 75%, deretter 3 repetisjoner på 85%. 
+
+Etter oppvarming ble belastning økt gradvis frem til de oppnådde en vekt de ikke lenger klarte å utføre etter testens krav. Den maksimale belastningen forsøkspersonene klarte å løfte med full bevegelsesbane ble loggført som 1RM.
+
+#### Treningsprotokoll
+
+Intervensjonen pågikk i 12 uker, og var bygget opp av et strukturert stryketreningsprogram for hele kroppen. Øvelsene for beina ble utført unilateralt, dette ble gjort for å sikre et balansert treningsvolum mellom beina. I forkant ble det tilfeldig inndelt hvilket bein som skulle gjennomføre single-set protokoll (ett sett) og multiple sett protokollen (tre sett).
+
+Oppvarming for for alle økter var standardisert, forsøkspersonene startet oppvarmingen med å sykle i 5 min på ergometersykkel. Deretter utførte de 10 repetisjoner i kroppsvektøvelser som push-ups, sit-ups, rygghev og knebøy (øvelsene ble tilpasset etter deres utgangspunkt). Siste del av oppvarmingen besto av ett oppvarmingssett i hver øvelse fra dagsplanen, med belastning på 50% av 1RM. 
+
+Styrketreningen for bein inkluderte tre hovedøvelser; unilateral beinpress,  lår curl og kneekstensjon. Øvelsene ble utført etter spesifikk rekkefølge, med enten ett eller tre sett, avhengig av protokoll. Single sett ble utført mellom andre og tredje sett fra beinet anvist multiple-sett protokollen. Treningen av overkropp inkluderte øvelser som unilateral benkpress, nedtrekk, og øvelsene sittende roing og skulderpress ble vekslet mellom annenhver treningsøkt. 
+
+Intervensjonen startet med en belastning på 10RM de to første ukene. Uke 3-6 ble belastning økt opp til 8RM, og økt ytterligere til 7RM fra uke 7-12. Treningsfrekvensen gjennom ukene varierte, dette ble gjort for å øke totalvolum gjennom intervensjonen; to økter i uke 1, 3, 5, 9 og 12; tre økter uke 2, 4, 6, 8, 10 og 11. Treningsukene hvor frekvensen var 3 økter ukentlig, ble intensiteten redusert i en av øktene (90% av forrige økt). Maksimale økter skulle ha minimum 48 t mellomrom, og økter med redusert belastning hadde minimum 24 t hvile. 
+
+Forsøkspersonene ble utdelt en standardisert restitusjonsdrikk etter hver treningsøkt, næringsinnholdet i denne besto av 0,15 g protein, 1,2 g karbohydrat og 0,05 g fett standardisert etter forsøksperson sin kroppsvekt. 
+
+Noen økter kunne utføres uten veiledning , men 91% av alle treningsøkter ble utført under oppsyn og veiledning. Treningsøktene som ble utført uten oppsyn ble detaljert loggført, og ble regelmessig gjennomgått av forskerne sammen med forsøksperson. Dette ble gjort for å sikre nøyaktighet og en konsistent gjennomføring, for å bedre kunne produsere reliable og repiterbare resultater. 
+
+### Dataanalyse og statistikk 
+
+All data inkludert i denne rapporten presenteres som gjennomsnitt og standard avvik (mean ± SD), med mindre noe annet presiseres. For å kunne undersøke hypertrofi og styrke påvirkes av ulikt treningsvolum, ble gjennomsnitts differanse i endring mellom single-sett protokoll (SSP) og multiple-sett protokoll (MSP) beregnet. Resultatene visualiseres gjennom modeller under resultat kapittelet, og forsøkspersonenes utvikling blir illustrert for begge protokoller. 
+
+Hypotesetesting for å kunne vurdere eventuelle differanser mellom SSP og MSP ble utført i programvaren R ved bruk av lme4-pakken. Nullhypotese, som forutsetter ingen differanse, ble satt på prøve med en signifikansgrense på α = 0.05. Alle statistiske analyser ble utført gjennom programvaren R. 
+
+
+
+## Resultat
+
+### Hypertrofi
+
+```{r}
+#| echo: false
+#| warning: false
+#| message: false
+
+
+library(tidyverse); library(exscidata); library(lme4)
+
+# Load data
+dat <- dxadata %>%
+  select(participant:include, lean.left_leg, lean.right_leg) %>%
+        
+        # Extract leg specific data
+  pivot_longer(names_to = "leg", 
+               values_to = "lean.mass", 
+               cols = lean.left_leg:lean.right_leg) %>%
+  mutate(leg = if_else(leg == "lean.left_leg", "L", "R"), 
+         sets = if_else(multiple == leg, "multiple", "single")) %>%
+  select(participant, time, sex, include, sets, leg, lean.mass) %>%
+        # Filter only included participants
+        filter(include == "incl") %>%
+        # Make data set wider by time 
+        
+        pivot_wider(names_from = "time", 
+                    values_from = "lean.mass") %>%
+        # Calculate change score
+        
+        mutate(change = post - pre) %>%
+        
+        # Keep change score and make it wider by sets
+        select(participant:sets, change) %>%
+        pivot_wider(names_from = sets, values_from = change) 
+  
+t_results <- with(dat, t.test(multiple, single, paired = TRUE)) 
+
+## write up the t-test
+
+pval <- round(t_results$p.value, 3)
+
+tval <- round(t_results$statistic, 2)
+
+df <- t_results$parameter
+
+cil <- round(t_results$conf.int[1], 1)
+ciu <- sprintf("%.1f", round(t_results$conf.int[2], 1))
+
+estimate <- round(t_results$estimate, 1)
+
+
+lean.mass.results <- paste0(estimate,
+                            "95g CI: [",
+                            cil,
+                            ",",
+                            ciu,
+                            "], *p*-value =",
+                            pval, 
+                            ", t<sub>",
+                            df, "</sub> =",
+                            tval, ")")
+
+```
+
+
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| label: fig-lean-body-mass
+#| fig-cap: "Forskjell på endring av muskelmasse under intervensjonen mellom SSP og MSP hos manlige og kvinnelige deltakere"
+
+library(ggtext)
+
+dat %>%
+  pivot_longer(names_to = "sets",
+               values_to = "lbm",
+               cols = multiple:single) %>%
+  
+  mutate(sets = factor(sets, levels = c("single", "multiple"))) %>%
+  
+  ggplot(aes(sets, lbm, group = participant, color = sex)) +
+  geom_line() +
+  geom_point() +
+  labs(x = "sets",
+       color = "kj&oslash;nn") +
+  theme(legend.title = element_markdown())
+
+```
+
+
+### Maksimal styrke
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+
+
+
+## exploratory plot of strenght data
+
+str <- strengthvolume %>%
+  filter(include == "incl") %>%
+  filter(time == "pre" | time == "post") %>%
+  filter(exercise == "legpress") %>%
+  mutate(time = factor(time, levels = c("pre", "post"))) 
+
+  
+
+str_pre_post <- str %>%
+  mutate(time = if_else(time %in% c("pre", "session1"), "pre", time)) %>%
+ 
+  filter(time %in% c("pre", "post")) %>% 
+    summarise(load = max(load, na.rm = TRUE),
+              .by = c(participant,
+                      sex,
+                      time,
+                      sets,
+                      exercise,
+                      leg)) %>%
+    filter_all(all_vars(!is.infinite(.))) 
+
+
+# view the summary data
+
+
+str_change <- str_pre_post %>%
+  pivot_wider(names_from = time, values_from = load) %>%
+  mutate(change = post - pre) %>%
+  
+  select(participant, sex, sets, exercise, change) %>%
+  pivot_wider(names_from = sets,
+              values_from = change) %>%
+  
+  mutate(diff = multiple - single) 
+  
+ 
+
+str_tst <- str_change %>%
+  filter(exercise == "legpress") %>%
+  select(participant, sex, single, multiple, diff) 
+
+t_results2 <- t.test(str_tst$multiple, str_tst$single, paired = TRUE)
+
+
+
+####### 
+
+## write up the t-test
+
+pval2 <- round(t_results2$p.value, 3)
+
+tval2 <- round(t_results2$statistic, 2)
+
+df2 <- t_results2$parameter
+
+cil2 <- round(t_results2$conf.int[1], 1)
+ciu2 <- sprintf("%.1f", round(t_results2$conf.int[2], 1))
+
+estimate2 <- round(t_results2$estimate, 1)
+
+strength.test.results <- paste0(estimate2,
+                            "95kg CI: [",
+                            cil2,
+                            ",",
+                            ciu2,
+                            "], *p*-value =",
+                            pval2, 
+                            ", t<sub>",
+                            df2, "</sub> =",
+                            tval2, ")")
+```
+
+
+
+```{r}
+#| echo: false
+#| message: false
+#| warning: false
+#| label: fig-strength-test
+#| fig-cap: "Forskjell på endring i styrke i legpress under intervensjon mellom SSP og MSP hos mannlige og kvinnelige deltakere"
+
+
+library(ggtext)
+
+str_plot <- str_tst %>%
+  pivot_longer(names_to = "sets",
+               values_to = "strength",
+               cols = multiple:single) %>%
+  
+  mutate(sets = factor(sets, levels = c("single", "multiple"))) %>%
+  
+  ggplot(aes(sets, strength, group = participant, color = sex)) +
+  geom_line() +
+  geom_point() +
+  labs(x = "sets",
+       color = "kj&oslash;nn") +
+  theme(legend.title = element_markdown())
+
+str_plot
+
+```
+
+## Diskusjon 
+
+Undersøkelsen viste forsøkspersonene en større gjennomsnittlig økning i CSA ved MSP sammenliknet med SSP. Dette samsvarer med funnene til Krieger (2010) og Schoenfeld (2013). Funnene våre oppnåde også en statistisk signifikans, videre må det presiseres at enkelte forsøkspersoner responderte tilsynelatende bedre med SSP sammenliknet MSP. Dette motstrider til dels tidligere forskning, og gjennomsnittsverdiene i vår egen undersøkelse. Årsaken bak dette ligger trolig i individuelle fysiologiske og gentiske faktorer, som virker favoriserende ovenfor et lavere treningsvolum. 
+
+For maksimal styrke (1RM) var resultatene gjenspeilende til økning i CSA. MSP kunne vise til en bedre gjennomsnitts økning sammenliknet SSP, og oppnådde statistisk signifikans med p = 0.025. Raastad et al. (2013) forteller at CSA er en av de mer sentrale faktorene som virker bestemmende på maksimal styrke, og det virker derfor logisk at det er en koorelasjon i våres funn sett i lys av økning i CSA. 
+
+Det virker dermed at ved økt treningsvolum, vil dette medføre bedre progresjon for både utvikling av maksimal styrke og CSA, uten at det kan presiseres et "tak" for hvor utbyttet stopper. Det er også viktig å ta i betraktning eventuelle restitusjonsutfordringer ved svært høye treningsvolum (Schoenfeld et al., 2017; Häkkinen et al., 1998; Kraemer et al., 2002). På bakgrunn av dette kan det være hensiktsmessig å starte opp en treningsperiode med en mer moderat treningsmengde, og øke mengden ved behov underveis. Dermed så begrenser vi risikoen for å utsette oss selv eller utøveren for restitusjonsvansker.  
+
+

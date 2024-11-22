@@ -1,0 +1,379 @@
+---
+title: "Statistical Inference"
+author: "Adrian Haslum Kristiansen"
+date: "2024-11-22"
+bibliography: resources/references.bib
+---
+
+# Assignment 3: Drawing inference from statistical models, and statistical power {#assignment3}
+
+
+
+```{r}
+library(tidyverse)
+
+set.seed(1)
+population <- rnorm(1000000, mean = 1.5, sd = 3)
+
+
+samp1 <- data.frame(y = sample(population, 8, replace = FALSE))
+
+samp2 <- data.frame(y = sample(population, 40, replace = FALSE))
+
+
+m1 <- lm(y ~ 1, data = samp1)
+m2 <- lm(y ~ 1, data = samp2)
+
+summary(m1)
+summary(m2)
+
+```
+
+## 1. Explain the estimate, SE, t-value, and p-value from the regression models that we created previosly (m1 and m2).
+
+### Estimate
+
+Estimate er alltid basert på et utvalg, og dermed kan det legge til
+rette for en usikkerhet. Usikkerheten som er koblet til et estimat kan
+som oftest kvantifiseres, dette ved å anvende hjelpemidler som Standard
+Error eller å beregne konfidensintervall. Estimat brukes også ofte for å
+representere en populasjon basert på et mindre utvalg. I denne
+undersøkelsen representerer gjennomsnittsverdien av forskjellen av de to
+ulike regresjonsmodellene (m1 og m2). Regresjonsmodell m1 baseres et
+mindre utvalg (n=8), og produserte et estimat på 1,840. Derimot gir
+modellen m2 (n=40) et estimat på 1.5642. Forskjellen mellom de to ulike
+estimatene skyldes differansen i utvalget.
+
+### Standard Error
+
+Standard Error (SE) er et mål på estimatet/gjennomsnittet varierer fra
+den egentlige populasjonsverdien, og gir et innblikk av usikkerheten
+eller presisjonen til et estimat. For eksempel hadde m1 et målt SE på
+1.251, og vi kan derav forvente rundt 1.251 enheter i gjennomsnitts
+avvik fra populasjonsgjennomsnittet ved hver repetisjon av
+undersøkelsen. Av regresjonsmodellen m2 kan vi forvente 0.4774 enheter i
+avvik fra populasjonsgjennomsnittet. Ettersom m2 har en lavere
+spredning, vil det føre til en mindre usikkerhet til resultatene
+sammenliknet med m1.
+
+### T-verdi
+
+T-verdi er en statistisk måling som brukes til å teste en hypotese opp
+mot en null-hypotese, og bidrar til å avgjøre om observert forskjell
+mellom to observasjoner skyldes tilfeldigheter eller statistisk
+signifikans. I følge Spiegelhalter (2019) kan t-verdien tolkes som hvor
+langt fra 0, målt i antall SE. Med verdier lengre fra null, er det en
+indikasjon at det en forskjell mellom observasjonene.
+
+Observasjon m1 er basert på et mindre utvalg(n=8), dette resulterer til
+en lavere t-verdi (1.47), denne t-verdien er ikke langt nok unna null
+til å være av en statiskisk signifikans. Observasjon m2 baserer seg
+derimot på et større utvalg, noe som gjør utslag på t-verdien (3.276).
+Denne t-verdien er signifikant større sammenliknet med m1,
+
+### P-verdi
+
+P-verdien er sannsynligheten for å få en t-verdi som er like ekstrem,
+eller mer ekstrem som den observerte, på bakgrunn at null-hypotesen er
+sann (Spiegelhalter, 2019).
+
+I observasjonene er p-verdiene henholdsvis 0.185 (m1) og 0.00221 (m2). I
+observasjon m1 ser vi en noe høyere p-verdi (0.185), dette tilsvarer en
+18,5% sannsynlighet for å oppnå en lik t-verdi, gitt at null-hypotesen
+er valid, og er derfor av liten statistisk signifikans. I observasjon m2
+ser vi en lavere p-verdi (0.00221), og dette utgjør en 0,221%
+sannsynlighet for en lik t-verdi, gitt at null-hypotesen er valid, og
+utgjør dermed en statistisk signifikans.
+
+### Type 1-feil
+
+Type 1-feil er det vi kaller for falsk positiv. Dette vil si at vi
+konkluderer en effekt eller forskjell finnes, til tross for at den
+faktisk ikke gjør det. For eksempel, vi ønsker å undersøke om ett nytt
+type kosttilskudd forbedrer prestajonen for langdistanse løpere. Vi har
+40 deltakere som deles inn i to grupper. Gruppe 1 blir tildelt
+kosttilskudd, og gruppe 2 blir tildelt placebo. I post test løper gruppe
+1 gjennomsnittlig 1 minutt lenger sammenliknet med gruppe 2. Vi utfører
+deretter en statistisk test (f.eks. t-test) for å undersøke
+signifikansen.
+
+Nullhypotesen (H₀): Kosttilskuddet har ingen effekt på utholdenheten til
+løperne.
+
+Alternativ hypotesen (H₁): Kosttilskuddet forbedrer utholdenheten til
+løperne.
+
+Signifikansnivået settes til 0,05 (5%). Viser testen at p-verdien er
+mindre enn 0,05, avviser vi nullhypotesen, og konkluderer med at
+tilskuddet har en signifikant effekt på prestasjon.
+
+Men i virkeligheten kan det være at tilskuddet i seg selv ikke har en
+reell effekt på prestasjon. Prestasjons forskjellen kan ha oppstått ved
+tilfeldigheter, genetisk variasjon mellom deltakere, dagsformen på test
+dag(ene), eller andre faktorer som ikke ble kontrollert nøyaktig nok i
+undersøkelsen. Type 1-feil oppstår dermed av at vi blir "lurt" av
+tilfeldige variasjoner som ikke er tatt med i betrakting.
+
+For å motvirke type 1-feil kan vi senke signifikansnivå, men for lavt
+signifikansnivå vil føre til økt risiko for type 2-feil. På bakgrunn av
+dette, vil den mest effektive og reliable måten å begrense type 1-feil
+være ved å inkludere nok deltakere og utvalgsstørrelse.
+
+### Type 2-feil
+
+Type 2-feil er det vi kaller for en falsk negativ, vi finner ingen
+statistisk signifikant forskjell, til tross for at det faktisk er det.
+Ved å benytte samme eksempel som i forklaring av type 1 feil, etter
+avsluttet intervensjon oppdager vi ingen statistisk signifikant
+forskjell på prestasjonen mellom gruppene. I realiteten hadde
+kosttilskuddet faktisk en reell effekt på prestasjon, uten at den ble
+oppdaget.
+
+Hva kunne føre til en slik feil? Utvalg spiller en sentral rolle, med et
+for lavt utvalg øker risiko for å ikke observere effekter som er til
+stedet. Sammen med utvalgsstørrelse, vil stor variasjon av
+prestasjonsnivå på deltakere kunne påvirke risikoen for type 2-feil (og
+type-1). Ved en stor varians kan effekten fra tilskuddet bli oversett
+ettersom det allerede var en stor variasjon mellom deltakernes
+prestasjonsevne før intervensjonen.
+
+## 2. Discuss what contributes to the different results in the two studies (m1 and m2).
+
+I regresjonsmodellen m1 blir det brukt et lite utvalg(n=8), og m2 ble
+det anvendt ett større utvalg (n=40). Dette resulterte i en koeffisient
+på 1.840 (m1) og 1.5642 (m2), og dette representerer den
+gjennomsnittlige forskjellen mellon regresjonsmodellene. På bakgrunn av
+at m2 inneholdt et større utvalg, vil dette estimatet gi oss en mer
+korrekt gjennomsnitt for den representative populasjonen. Dette skyldes
+at et større utvalg produserer et mer nøyaktig gjennomsnitt. Ved et
+lavere utvalg vil det resultere i større variabilitet i dataene, dette
+vil bidra til en høyere SE. Konfidensintervallet til m1 og m2 påvirkes i
+stor grad av utvalget, og dermed ser vi en større statistisk signifikans
+i m2 sammenliknet med m1.
+
+## 3. Why do we use the shaded area in the lower and upper tail of the t-distribution (see figure @ref(fig:t-dist-fig)).
+
+De mørkere delene av "t-distribution" av m1 representerer
+regresjonsmodellens p-verdi (0.185). I senter av kurven finner vi t = 0,
+og dette representerer null hypotesen. Dette betyr at 18,5 % av kurven,
+både høyre og venstre side, viser oss sannsynligheten for å oppnå en
+t-verdi som like- eller mer ekstrem enn den observerte t-verdien (t =
+1.47) avhengig av at null-hypotesen er valid. Verdiene til m1 er dermed
+ikke statistisk signifikante, og vi kan ikke kaste null-hypotesen.
+
+```{r}
+
+# Create data frames to store the model estimates
+results_8 <- data.frame(estimate = rep(NA, 1000), 
+                      se = rep(NA, 1000), 
+                      pval = rep(NA, 1000), 
+                      n = 8)  
+
+results_40 <- data.frame(estimate = rep(NA, 1000), 
+                      se = rep(NA, 1000), 
+                      pval = rep(NA, 1000), 
+                      n = 40)
+
+# A for loop used to sample 1000 studies, each iteration (i) will draw a new sample
+# from the population. 
+
+for(i in 1:1000) {
+  
+  # Draw a sample 
+  samp1 <- data.frame(y = sample(population, 8, replace = FALSE))
+  samp2 <- data.frame(y = sample(population, 40, replace = FALSE))
+
+  # Model the data
+  m1 <- lm(y ~ 1, data = samp1)
+  m2 <- lm(y ~ 1, data = samp2)
+  
+  # Extract values from the models
+  results_8[i, 1] <- coef(summary(m1))[1, 1]
+  results_8[i, 2] <- coef(summary(m1))[1, 2]
+  results_8[i, 3] <- coef(summary(m1))[1, 4]
+
+  results_40[i, 1] <- coef(summary(m2))[1, 1]
+  results_40[i, 2] <- coef(summary(m2))[1, 2]
+  results_40[i, 3] <- coef(summary(m2))[1, 4]
+  
+  
+}
+
+
+# Save the results in a combined data frame
+
+results <- bind_rows(results_8, results_40)
+
+```
+
+```{r}
+# Beregn standardavviket av estimate og gjennomsnittet av SE for n = 8
+sd_estimate_8 <- sd(results_8$estimate)
+mean_se_8 <- mean(results_8$se)
+
+# Beregn standardavviket av estimate og gjennomsnittet av SE for n = 40
+sd_estimate_40 <- sd(results_40$estimate)
+mean_se_40 <- mean(results_40$se)
+
+# Skriv ut resultatene
+cat("For n = 8:\n")
+cat("Standard deviation of estimate:", sd_estimate_8, "\n")
+cat("Average SE:", mean_se_8, "\n\n")
+
+cat("For n = 40:\n")
+cat("Standard deviation of estimate:", sd_estimate_40, "\n")
+cat("Average SE:", mean_se_40, "\n")
+
+```
+
+## 4. calculate the standard deviation of the estimate variable, and the avarage of the SE variable for each of the study sample sizes (8 and 40). Explain why these numbers ar very similar. how can you define the Standard Error (SE) in light of these calculations?
+
+Standard avviket av estimat måler variasjonen i de ulike gjennomsnittene
+vi oppnår av alle de tilfeldige utvalgene. Alle 1000 studier vil
+generere et estimat, og standardavviket måler variasjonen av estimatene
+rundt populasjonsgjennomsnittet.
+
+I observasjonene ble standardaviket av estimat og gjennomsnitt av SE
+ganske like. Likhetene av verdiene skyldes at standardavviket av estimat
+beskriver den faktiske varasjonen i de observerte gjennomsnittene, og SE
+er en predikasjon av denne variasjonen. Resultatene i denne
+observasjonene ble henholdsvis; for n=8, standardavvik av estimat:
+1.068155, og gjennomsnittlig SE: 1.008706. For n=40, standardavvik av
+estimat: 0.4743506, og gjennomsnittlig SE: 0.4704552
+
+## 5. Create a histogram (see example code below) of the p-values from each study sample-size. How do you interpret these histograms, what do they tell you about the effect of sample size on statistical power?
+
+```{r}
+# A two facets histogram can be created with ggplot2
+results %>%
+  ggplot(aes(pval)) + 
+  geom_histogram() +
+  facet_wrap(~ n)
+
+```
+
+Ved å se på histogrammene ser vi en tydelig fordeling av p-verdiene
+mellom n=8 og n=40.
+
+### n=8
+
+Histogrammet viser mange p-verdier fordelt over et bredt spekter, og at
+majoriteten av p-verdiene overgår 0.05. Denne observasjonen viser at det
+er en utfordring å oppnå statistisk signifikante resultater med et
+utvalg som er mindre.
+
+### n=40
+
+Dette histogrammet viser en større konsentrasjon av p-verdier mot 0.00,
+og hvor flere er under 0.05. Dette forteller oss at ved observasjoner
+som inkluderer et større utvalg øker sannsynligheten for å oppnå
+statistiske signifikante resultater.
+
+### Statistisk styrke
+
+Statistisk styrke refererer til sannsynligheten for å kunne avvise
+null-hypotesen uten type-1 feil. Histogrammene i denne observasjonen
+viser oss ett tydelig bilde på hvordan et utvalg vil påvirke den
+statistiske styrken. Dette er synlig ettersom n=8 har et større andel
+p-verdier som overgår 0.05 sammenliknet med n=40.
+
+## 6. Calculate the number of studies from each sample size that declare a statistical significant effect (specify a threshold ⍺, your significance level).
+
+```{r}
+# Count the proportion of tests below a certain p-value for each 
+results %>%
+  filter(pval < 0.05) %>%
+  group_by(n) %>%
+  summarise(sig_results = n()/1000)
+
+```
+
+## 7. Using the pwr package, calculate the power of a one-sample t-test, with a effect size of 1.5/3, your specified significance level and sample sizes 8 and 40. Explain the results in the light of your simulations.
+
+```{r}
+
+# Using the pwr package
+library(pwr)
+
+pwr.t.test(n = 40, sig.level = 0.05, d = 1.5/3, type = "one.sample")
+
+```
+
+### n=8
+
+power = 0.232077
+
+### n=40
+
+power = 0.8693981
+
+### Forklaring av resultatene
+
+I denne delen av observasjonen er det blitt beregnet statistisk power
+for en enveis t-test. Power i dette tilfelle refererer til
+sannsynligheten for å korrekt forkaste null-hypotesen når hypotesen er
+sann, og en høyere power utgjør en bedret sjanse for å kunne observere
+en reell effekt om det er forekommet. Resultatene i denne delen av
+observasjonen viser til en signifikant lavere power verdi ved et lavere
+utvalg.
+
+## 8. With a significance level of 5%, how many studyies would give you a "false positive" result if you did many repeated studies?
+
+```{r}
+#| warning: false
+#| message: false
+
+
+population <- rnorm(1000000, mean = 0, sd = 3)
+
+
+# Create data frames to store the model estimates
+results_8 <- data.frame(estimate = rep(NA, 1000), 
+                      se = rep(NA, 1000), 
+                      pval = rep(NA, 1000), 
+                      n = 8)  
+
+results_40 <- data.frame(estimate = rep(NA, 1000), 
+                      se = rep(NA, 1000), 
+                      pval = rep(NA, 1000), 
+                      n = 40)
+
+# A for loop used to sample 1000 studies, each iteration (i) will draw a new sample
+# from the population. 
+
+for(i in 1:1000) {
+  
+  # Draw a sample 
+  samp1 <- data.frame(y = sample(population, 8, replace = FALSE))
+  samp2 <- data.frame(y = sample(population, 40, replace = FALSE))
+
+  # Model the data
+  m1 <- lm(y ~ 1, data = samp1)
+  m2 <- lm(y ~ 1, data = samp2)
+
+   # Extract values from the models
+  results_8[i, 1] <- coef(summary(m1))[1, 1]
+  results_8[i, 2] <- coef(summary(m1))[1, 2]
+  results_8[i, 3] <- coef(summary(m1))[1, 4]
+
+  results_40[i, 1] <- coef(summary(m2))[1, 1]
+  results_40[i, 2] <- coef(summary(m2))[1, 2]
+  results_40[i, 3] <- coef(summary(m2))[1, 4]
+  
+  
+}
+
+
+# Save the results in a combined data frame
+
+results_null <- bind_rows(results_8, results_40)
+
+```
+
+### Hvor mange studier ville ført til "false positive"
+
+Ved et signifikansnivå på 5 % er det til å forvente at omkring 5 % av
+studiene gir såkalte "false positive", og dette er uavhengig av
+utvalgsstørrelse. "False positive" vil her representere Type 1-feil. For
+observasjonene våres utvalg vil dette sannsynligvis føre til 50 "false
+positive" (5 % av 1000 studier).

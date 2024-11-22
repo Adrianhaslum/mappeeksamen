@@ -1,0 +1,573 @@
+---
+title: "Assignment 2: Regression models, predicting from data"
+author: "Adrian Haslum Kristiansen"
+date: "2024-11-22"
+bibliography: resources/references.bib
+---
+Denne oppgaven er delt inn tre separate deler som tar for seg konsepter innenfor analyse av data og regresjon. I del 1 kalkulerer vi laktat terskler, og ser nærmere på reliabiliteten mellom to ulike terskelnivåer. Del 2 bruker vi molekylær data til å predikere størrelsen på DNA-fragment ved hjelp av en veileder. I del 3 skal vi se nærmere på om det finnes en lineær sammenheng mellom to valgte variabler fra datasettet `hypertrophy`i datapakken `exscidata`
+
+## Del 1: Laktat terskler
+
+### Introduksjon
+
+Laktat terskel er en variabel som er godt brukt for å forutsi prestasjon innenfor utholdenhets idretter, og brukes til å styre intensiteten av treningsøkter og evaluere trenings effekt [@machado2012; @poole2021]. Laktat terskel er den intensiteten hvor produksjon av laktat overgår kroppens kapasitet til å eliminere den. Når denne terskelen overstiges medfører det dermed til akkumulering av laktat i blodbanen (@poole2021, s.738).
+
+Metodene for å undersøke et individs laktat terskel er det mange av, men en av de mer brukte metodene utføres ved å måle intensitet ved faste laktatnivåer i blodet, som som 2 og 4 mmol/L, og ved bidrag fra regresjonsmodeller som gir oss predikasjoner om intensiteten ved disse verdiene (@kindermann1979; @RN2511). Machado et al. (2012) beskriver videre at "maximal-deviation method" kan gi oss analyser som bedre kan forklare underliggende mekanismer som virker bestemmende for prestasjonen vår [@machado2012].
+
+Laktat terskel er en helt essensiell parameter innenfor fysiologien for å kunne tyde sammenheng av intensitet og den metabolske responsen. I denne deloppgaven skal det sammenliknes reliabilitet til 2 og 4 mmol/L. Reliabiliteten vil bli målt som typisk feil oppført i prosenten av gjennomsnittet.
+
+### Metode
+
+Vår datainnsamling fra reliabilitetsforsøket har ikke en tilfredstillende mengde data. På bakgrunn av dette benyttes datasettet `cyclingstudy` som datagrunnlag for videre analyse. Datasettet inneholder et mangfold av anvendbare fysiologiske variabler fra en tidligere utført sykkelstudie (@sylta2016). Dette datasettet ble grunnlaget for uthentet informasjon vedrørende intensitet målt i watt og konsentrasjon av blodlaktat. Det ble tatt i bruk lineære og polynomiske modeller for å beregne to laktat terskler 2 mmol/L og 4 mmol/L, for å kunne undersøke forholdet til intensitet og akkumulering av laktat. Prediskjoner for hver modell ble tatt i bruk for å kunne undersøke wattverdi nærmest tersklene. Tredjegradspolynomiske modellen ble utvalgt for å visualisere oppnådde resultater mer detaljert.
+
+Data filtreres for en forsøksperson (subject = 10) ved et bestemt tidspunkt i studien (pre). konsentrasjoner av laktat ved 225 til 375 watt omformeeres til et lengre format, dette for å enklere kunne visualisere og analysere resultatene. laktatnivåene analyseres slik at vi kan observere intensiteter som er nærmest 2 mmol/L og 4 mmol/L.
+
+Resterende verdier (residuels) fra hver eneklt modell blir beregnet for å kunne vurdere modellenes egenskaper til å beskrive produsert data. Restverdiene visualiseres i @fig-residualer, for å kunne illustrere modellens avvik fra observert verdi ved ulik intensitet. Viderre ble de ulike modellene, inkludert lineær, andre-, tredje- og fjerdegradspolynomiske tilpasninger, benyttet til å sammenligne hvordan de ulike modellene forklarer sammenheng av watt og konsentrasjon av blodlaktat.
+
+For å kunne analysere reliabiliteten til tersklene, ble typisk feil beregnet $TE = \frac{SD_{\text{diff}}}{\sqrt{2}}$, som prosentandel av gjennomsnittsverdi, med andre ord koeffisienten av variasjon (cv) $CV (\%) = \frac{\text{Typical Error}}{\text{Mean}}\times 100$.
+
+### Resultat
+
+@fig-modeller fremstiller sammenheng av intensitet (watt) og konsentrasjon av blodlaktat, kombinert tilpasninger som tar utgangspunkt på ulike modeller.
+
+```{r}
+#| label: fig-modeller
+#| fig-cap: "Tilpasning av ulike modeller til sammenhengen mellom treningsintensitet (watt) og blodlaktatkonsentrasjon. Grafen viser lineær modell (rød linje), andregradspolynomisk modell (blå linje), tredjegradspolynomisk modell (grønn linje), og fjerdegradspolynomisk modell (oransje linje), sammen med de observerte dataene (punkter). Tersklene ved 2 mmol/L (gul linje) og 4 mmol/L (rød linje) er indikert."
+
+
+### laste ned nødvendige packages
+library(tidyr)
+library(tidyverse)
+library(ggplot2)
+library(exscidata)
+
+
+###laste inn data
+data("cyclingstudy")
+
+
+### Estimering av laktatterskelen og treningsintensiteten ved 4mmol L-1 
+
+cyclingstudy %>%
+  # utvalg av nødvendige kolonner i analysen.
+  select(subject, group, timepoint, lac.225:lac.375) %>%
+  # Kun ein deltaker og ett tidspunkt.
+  filter(timepoint == "pre", subject == 10) %>%
+  # lang format ved å bruke laktatkolonnene.
+  pivot_longer(names_to = "watt",
+               values_to = "lactate",
+               names_prefix = "lac.",
+               names_transform = list(watt = as.numeric),
+               cols = lac.225:lac.375) %>%
+  # Plotte data, group = subject nødvendig for å sammenkoble punktene.
+  ggplot(aes(watt, lactate, group = subject)) +
+  geom_line(lty = 2) +
+  geom_point(shape = 21, fill = "lightblue", size = 2.5) +
+  # Linjer på spesifikke punktene for 2mmol og 4mmol, samt skjeringspunktet mellom linjene.
+  geom_hline(yintercept = 4, color = "red") +
+  geom_hline(yintercept = 2, color = "gold") +
+  geom_vline(xintercept = 341.5, color = "blue") +
+  geom_vline(xintercept = 308, color = "green") +
+  # legge til en strak linje fra den lineære modelen.
+  geom_smooth(method = "lm", se = FALSE, formula = y ~ x, color = "#e41a1c") +
+  
+  # poly(x, 2) Legger til en andregradsplynomisk modell.
+  geom_smooth(method = "lm", se = FALSE, formula = y ~ poly(x, 2), color = "#377eb8") +
+  # poly(x, 3) Legger til en tredjegradsplynomisk modell.
+  geom_smooth(method = "lm", se = FALSE, formula = y ~ poly(x, 3), color = "#4daf4a") +
+  # poly(x, 4) Legger til en fjerdegradsplynomisk modell.
+  geom_smooth(method = "lm", se = FALSE, formula = y ~ poly(x, 4), color = "#ff7f00")
+
+```
+
+Modellene sammenliknes av hensyn til hvordan dataene beskrives, og videre observert ved restverdier (@fig-residualer). Sammen gir de tredje- og fjerdegradspolynomiske modellene de hensiktsmessige tilpassninger, spesielt nær tersklene ved 2 mmol/L og 4 mmol/L, og hvor den lineære modellenm viser større avvik på høyere wattverdi. Andregradspolynomiske modellen ligger mellom disse to ytterpuntkene.
+
+```{r}
+#| label: fig-residualer
+#| fig-cap: "Restverdier for de ulike modellene (lineær, andregradspolynomisk, tredjegradspolynomisk og fjerdegradspolynomisk). Grafen viser hvordan modellene avviker fra de observerte verdiene over treningsintensiteter (watt), med hver modell representert av forskjellige farger."
+
+lactate <- cyclingstudy %>%
+  # utvalg av nødvendige kolonner i analysen.
+  select(subject, group, timepoint, lac.225:lac.375) %>%
+  # Kun ein deltaker og ett tidspunkt.
+  filter(timepoint == "pre", subject == 10) %>%
+  # lang format ved å bruke laktatkolonnene.
+  pivot_longer(names_to = "watt",
+               values_to = "lactate",
+               names_prefix = "lac.",
+               names_transform = list(watt = as.numeric),
+               cols = lac.225:lac.375) %>%
+  # Fjerne dei ugyldige veriene NA for å hindre feilmeldinger.
+  filter(!is.na(lactate))
+
+# Legger til en strak linje fra modelen.
+m1 <- lm(lactate ~ watt, data = lactate)
+
+# Legger til en andregradsplynomisk modell.
+m2 <- lm(lactate ~ poly(watt, 2, raw = TRUE), data = lactate)
+
+# Legger til en tredjegradsplynomisk modell.
+m3 <- lm(lactate ~ poly(watt, 3, raw = TRUE), data = lactate)
+
+# Legger til en fjerdegradsplynomisk modell.
+m4 <- lm(lactate ~ poly(watt, 4, raw = TRUE), data = lactate)
+
+# Lagre alle restverdiene som nye variabler.
+lactate$resid.m1 <- resid(m1)
+lactate$resid.m2 <- resid(m2)
+lactate$resid.m3 <- resid(m3)
+lactate$resid.m4 <- resid(m4)
+
+lactate %>%
+  # Samle all data fra modelleme.
+  pivot_longer(names_to = "model",
+               values_to = "residual",
+               names_prefix = "resid.",
+               names_transform = list(residual = as.numeric),
+               cols = resid.m1:resid.m4) %>%
+  # Plotte verdiene fra den observerte watten på x aksen og restverdiene på y aksen
+  ggplot(aes(watt, residual, fill = model)) + geom_point(shape = 21, size = 3) +
+  
+  # For å ha samme farger som over, bruker me scale fill manual.
+  scale_fill_manual(values = c("#e41a1c", "#377eb8", "#4daf4a", "#ff7f00"))
+```
+
+@tbl-2mmol og @tbl-4mmol fremstiller estimert watt verdier ved begge laktatverdier, som baseres modellene. gjennomsnitt av intensitet for begge terskler er inkludert. Prediksjonene ble beregnet ved interpolasjon på tvers av observerte datapunkter for konsentrasjon av blodlaktat.
+
+```{r, table.pos='H'}
+#| label: tbl-2mmol
+#| tbl-cap: "De estimerte treningsintensitetene ved laktatterksel 2mmol/L basert på de fire ulike modellene: lineær (m1), andregradspolynomisk (m2), tredjegradspolynomisk (m3), og fjerdegradspolynomisk (m4)."
+
+
+library(gt)
+
+# Ny dataramme for prediksjoner
+ndf <- data.frame(watt = seq(from = 225, to = 350, by = 0.1))
+
+# Prediksjoner fra modellene
+ndf$predictions_m1 <- predict(m1, newdata = ndf)  # Lineær modell
+ndf$predictions_m2 <- predict(m2, newdata = ndf)  # Andregradspolynomisk modell
+ndf$predictions_m3 <- predict(m3, newdata = ndf)  # Tredjegradspolynomisk modell
+ndf$predictions_m4 <- predict(m4, newdata = ndf)  # Fjerdegradspolynomisk modell
+
+# Beregn terskel 2 mmol/L
+lactate_threshold_2mmol <- data.frame(
+  Model = c("m1", "m2", "m3", "m4"),
+  Watt = c(
+    ndf %>% filter(abs(predictions_m1 - 2) == min(abs(predictions_m1 - 2))) %>% pull(watt),
+    ndf %>% filter(abs(predictions_m2 - 2) == min(abs(predictions_m2 - 2))) %>% pull(watt),
+    ndf %>% filter(abs(predictions_m3 - 2) == min(abs(predictions_m3 - 2))) %>% pull(watt),
+    ndf %>% filter(abs(predictions_m4 - 2) == min(abs(predictions_m4 - 2))) %>% pull(watt)
+  )
+)
+
+# Beregn terskel 4 mmol/L
+lactate_threshold_4mmol <- data.frame(
+  Model = c("m1", "m2", "m3", "m4"),
+  Watt = c(
+    ndf %>% filter(abs(predictions_m1 - 4) == min(abs(predictions_m1 - 4))) %>% pull(watt),
+    ndf %>% filter(abs(predictions_m2 - 4) == min(abs(predictions_m2 - 4))) %>% pull(watt),
+    ndf %>% filter(abs(predictions_m3 - 4) == min(abs(predictions_m3 - 4))) %>% pull(watt),
+    ndf %>% filter(abs(predictions_m4 - 4) == min(abs(predictions_m4 - 4))) %>% pull(watt)
+  )
+)
+
+# Kombiner tersklene i en tabell
+lactate_thresholds <- data.frame(
+  Terskel = c(rep("2 mmol/L", 4), rep("4 mmol/L", 4)),
+  Modell = c(lactate_threshold_2mmol$Model, lactate_threshold_4mmol$Model),
+  Watt = c(lactate_threshold_2mmol$Watt, lactate_threshold_4mmol$Watt)
+)
+
+
+# Beregn gjennomsnitt for hver terskel
+mean_2mmol <- mean(lactate_threshold_2mmol$Watt)
+mean_4mmol <- mean(lactate_threshold_4mmol$Watt)
+
+# Opprett separate datarammer for tersklene
+threshold_2mmol <- lactate_thresholds %>%
+  filter(Terskel == "2 mmol/L") %>%
+  bind_rows(data.frame(
+    Terskel = "Gjennomsnitt",
+    Modell = "Gjennomsnitt",
+    Watt = mean(lactate_threshold_2mmol$Watt)
+  ))
+
+threshold_4mmol <- lactate_thresholds %>%
+  filter(Terskel == "4 mmol/L") %>%
+  bind_rows(data.frame(
+    Terskel = "Gjennomsnitt",
+    Modell = "Gjennomsnitt",
+    Watt = mean(lactate_threshold_4mmol$Watt)
+  ))
+
+# Lag tabell for 2 mmol/L
+table_2mmol <- threshold_2mmol %>%
+  select(Modell, Watt) %>% # Fjerner overflødige kolonner
+  gt() %>%
+  tab_header(
+    title = "Laktatterskel ved 2 mmol/L",
+    subtitle = "Treningsintensitet per modell og gjennomsnitt"
+  ) %>%
+  cols_label(
+    Modell = "Modell",
+    Watt = "Treningsintensitet (Watt)"
+  ) %>%
+  fmt_number(
+    columns = "Watt",
+    decimals = 1
+  ) %>%
+  tab_style(
+    style = cell_text(weight = "bold"),
+    locations = cells_body(
+      rows = threshold_2mmol$Modell == "Gjennomsnitt"
+    )
+  ) %>%
+  tab_source_note(
+    source_note = "Tabellen viser modellene og gjennomsnittet for terskelen ved 2 mmol/L."
+  )%>%
+    as_latex()
+
+# Vis tabellen
+table_2mmol
+```
+
+
+
+```{r, table.pos='H'}
+#| label: tbl-4mmol
+#| tbl-cap: "De estimerte treningsintensitetene ved laktatterksel 2mmol/L basert på de fire ulike modellene: lineær (m1), andregradspolynomisk (m2), tredjegradspolynomisk (m3), og fjerdegradspolynomisk (m4)."
+
+# Lag tabell for 4 mmol/L (uten duplikatkolonner)
+table_4mmol <- threshold_4mmol %>%
+  select(Modell, Watt) %>% # Fjerner overflødige kolonner
+  gt() %>%
+  tab_header(
+    title = "Laktatterskel ved 4 mmol/L",
+    subtitle = "Treningsintensitet per modell og gjennomsnitt"
+  ) %>%
+  cols_label(
+    Modell = "Modell",
+    Watt = "Treningsintensitet (Watt)"
+  ) %>%
+  fmt_number(
+    columns = "Watt",
+    decimals = 1
+  ) %>%
+  tab_style(
+    style = cell_text(weight = "bold"),
+    locations = cells_body(
+      rows = threshold_4mmol$Modell == "Gjennomsnitt"
+    )
+  ) %>%
+  tab_source_note(
+    source_note = "Tabellen viser modellene og gjennomsnittet for terskelen ved 4 mmol/L."
+  )%>%
+  as_latex()
+
+# Vis tabellen
+table_4mmol
+```
+
+Estimatene utført viser noe variasjon av modellene for begge undersøkte terskler. Ved terskel 2 mmol/L ser vi en variasjon fra 287.7 watt (W) (lineær modell) til 311.1 W (fjerdegradspolynomisk), gjennomsnitt var 304.1 W. Ved 4 mmol/L ble det observert variasjon fra 342.8 W (andregradspolynomisk modell) opp til 350 W (lineær modell), gjennomsnitt var 344.9 W
+
+Under presenteres @tbl-reliablitet, tabellen fremstiller mål på reliabiliteten ved både terskel 2 mmol/L og 4 mmol/L. Det observeres en høyere typisk feil og CV ved terskel 2 mmol/L, enn motpart 4 mmol/L. På bakgrunn av dette tyder det dermed at det er økt reliabilitet ved større terskel.
+
+```{r, table.pos='H'}
+#| label: tbl-reliabilitet
+#| tbl-cap: "Beregnede verdier av gjennomsnittlig treningsintensitet (watt), standardavvik for differanser (watt), typisk feil (watt), og koeffisient av variasjon (CV %), ved 2 mmol/L og 4 mmol/L"
+
+
+library(dplyr)
+library(gt)
+
+# Beregn gjennomsnitt direkte for 2 mmol/L og 4 mmol/L
+mean_2mmol <- mean(lactate_threshold_2mmol$Watt)
+mean_4mmol <- mean(lactate_threshold_4mmol$Watt)
+
+# Beregn standardavviket (SD_diff) for hver terskel
+sd_diff_2mmol <- sd(lactate_threshold_2mmol$Watt)
+sd_diff_4mmol <- sd(lactate_threshold_4mmol$Watt)
+
+# Beregn typisk feil (TE)
+te_2mmol <- sd_diff_2mmol / sqrt(2)
+te_4mmol <- sd_diff_4mmol / sqrt(2)
+
+# Beregn koeffisient av variasjon (CV %)
+cv_2mmol <- (te_2mmol / mean_2mmol) * 100
+cv_4mmol <- (te_4mmol / mean_4mmol) * 100
+
+# Kombiner alt i en dataramme
+reliability_data <- data.frame(
+  Terskel = c("2 mmol/L", "4 mmol/L"),
+  Mean_Watt = c(mean_2mmol, mean_4mmol),
+  SD_diff = c(sd_diff_2mmol, sd_diff_4mmol),
+  Typical_Error = c(te_2mmol, te_4mmol),
+  CV_Percent = c(cv_2mmol, cv_4mmol)
+)
+
+# Lag en tabell med gt
+reliability_table <- reliability_data %>%
+  gt() %>%
+  tab_header(
+    title = "Reliabilitet ved ulike terskler",
+    subtitle = "Typisk feil og koeffisient av variasjon"
+  ) %>%
+  cols_label(
+    Terskel = "Terskel (mmol/L)",
+    Mean_Watt = "Gjennomsnitt (Watt)",
+    SD_diff = "SD Diff (Watt)",
+    Typical_Error = "Typisk Feil (Watt)",
+    CV_Percent = "CV (%)"
+  ) %>%
+  fmt_number(
+    columns = c(Mean_Watt, SD_diff, Typical_Error, CV_Percent),
+    decimals = 2
+  ) %>%
+  tab_source_note(
+    source_note = "Tabellen viser beregnet reliabilitet ved tersklene 2 mmol/L og 4 mmol/L."
+  )%>%
+  as_latex()
+
+# Vis tabellen
+reliability_table
+```
+
+
+## Del 2: Forutsi størrelser på DNA fragmenter eller stiningene i en qPCR-kalibreringskurve
+
+### Introduksjon
+
+Prestasjonsevnen vår vil påvirkes av flere faktorer, for å nevne noen så kan vi trekke inn både miljø og genetiske faktorer (@Tucker555). Et gen som virker sentralt for dette er ACTN3. som koder for proteinet alpha-actinin-3. Alpha-actinin-3 observeres nærmest utelukkende i høy-terskel muskelceller, og har dermed en sentral rolle for idretter som stiller store krav til kraftutvikling. (@Mikami2014; @NORTH1996; @Schadock2015). Det må videre nevnes at genet kan muteres, og resultatet er en variasjon som ikke er funksjonell. Dette er mer pressist kjent som R577X-polymorphism (@North1999). Vi kan observere genotyper som inneholder R allelet eller Y allelet, hvor førstnevnte assosieres med gunstige forhold for å maksimal kraft eller "Rate of Force Developement" (RFD), i motsatt ende assosieres Y allelet med gunstige forhold for prestasjon i utholdenhetsidretter (@Mikami2014; @Yang2003, s.629-630). 
+
+For å kunne analysere genotypene til ACTN3-genet, benyttes det molekylære teknikker som polymerasekjedereaksjon (PCR) og elektroforese. Ved å benytte PCR er det mulig å utføre spesifikke amplifisering av DNA-sekvenser, og på denne måten kan det identifiseres genetisk variasjon (@Schadock2015). Elektroforese i agarosegel benyttes i neste steg for å kunne separere DNA-fragmentene basert på deres størrelse, og gir grunnlag for å kunne visualisere en representasjon av genotypene (@Schadock2015). 
+
+I denne delen undersøkte vi ACTN3-genet ved å utføre en DNA-analyse. DNA-analysen ble utført som en del av undervisningen i molekylærlaboratoriet. Det ble gjort av PCR og elektroforese, hvor vi forsøkte å separere, og analysere fragmentstørrelse til ACTN3-genet for å kunne kartlegge genotype i de ulike prøvene.   
+
+### Metode
+
+#### DNA-ekstrasjon
+
+DNA ble uthentet fra blodprøver, blodprøvene ble ført over i prøverør etylendiamintetraeddiksyre (EDTA). Protokollen benyttet var en modifisert versjon som baserers på Bartlett og Stirlings protokoll (@bartlett2003, kap 6). Etter overførelsen av 3 mL blod til 15 mL rør, lyserte vi cellene med Reagens A og videre sentrifugert for å kunne isolere en cellepellet (3000 g i 5 min). Videre ble pelleten resuspendert i Reagens B, DNA ble deretter frigjort etter tilsetning av natriumperklorat (250 μl av 5 M sodium perchlorate) og inkubert på 65 °C. Prøven ble deretter nedkjølt i romtemperatur, etter nedkjøling ble det tilført iskald 2 mL kloroform for å kunne skille DNA fra andre tilstedeværende cellekomponenter. Deretter ble prøven mikset ved hjelp av rotasjon i en tidsperiode fra 30-60 min. Neste steg ble å sentrifugere prøven (2400 g i 2 min), slik at det var mulig å ekstrahere den øvre delen av prøven. DNA ble så ekstrahert med kald 100% 2-3 mL etanol, tørket og så resusoendert i 200 ul TE-buffer. Konsentrasjonen i prøvene ble målt ved å benytte et spektrofometer, verdiene lå mellom 200 og 500 ng/ul.
+
+#### Bestemmelse av ACTN3-genotypen 
+
+ACTN3-genotypen ble bestemt ved bruk av en fire-primer PCR-protokoll tilpasset Schadock et al. (2015) (@Schadock2015). PCR-reaksjonen ble satt opp i totalvolum på 20 µL, og besto av 10 µL 2X master mix, 5 µL primermiks og 5 µL DNA-prøve. PCR-syklusen PCR-syklusen inkluderte initial denaturering ved 95 °C i 2 minutter, etterfulgt av 35 sykluser med 95 °C i 10 sekunder, og 72 °C i 45 sekunder, og til slutt ved 72 °C i 2 minutter.
+
+#### Elektroforese for analyse av PCR-produkter 
+
+PCR produktene ble analysert ved å benytte agagroseelektroforese i en 2% agarosegel. Vi fremstilte gelen ved å løse 2 g agarose i 100 mL 1X TBE-buffer, med tilsetning av 10 µL Sybr Safe for å vunne visuelt fremstille DNAet. Løsningen ble varmet opp frem til den var helt "gjennomsiktig", og deretter kjølt ned til 60 °C, etterfulgt ble den overført i støpeform med et gelkammer. Gelen stivnet etter 1 time, deretter ble den plassert i en horisontal elektroforeseenhet tilsatt med 1X TBE-buffer. 
+
+DNA-prøvene ble blandet med 6X farge (1 µL per 5 µL DNA-prøve), og 2-5 µL av hver prøve ble tilført over i egne brønner med en DNA-stige for referanse. Elektroforesen ble utført på 150 V i en time, slik at fargen kunne vandre ut på langs av gelen (ca. 80%). Gelen med prøvene ble visualisert i en G ved bruk av UV-lys og Sybr Green-instillinger. 
+
+#### Analyse av PCR-produkter med Iamge J og R
+
+For å kunne kunne bestemme størrelsen av PCR-produktene, utførte vi en bildeanalyse ved hjelp av IamgeJ Fiji. Videre inverterte, roterte og trimmet bilde, slik at vi kunne isolere prøvene og DNA-stige. For å kunne markere stigen og prøvene, ble det benyttet et rektangelverktøy, slik at intensitetsgrafen kunne registreres. Disse punktene representerte DNA-fragmentenees migrasjonsavstand, og deretter ble dataene videreført til Excel for analyse.
+
+I R ble en kalibreringskurve laget basert på DNA-stigen (@fig-kali), hvor logaritmen av molekylvekten ble plottet mot migrasjonsavstanden. For å kunne kalibrere ble det brukt en polynomodell for å kunne sikre bedret presisjon. Modellen ble grunnlaget for estimeringen av molekylstørrelse til de ukjente prøvene. Modellen ble vurdert basert på $R^2$-verdien fra lineær regresjon. 
+
+```{r}
+#| label: fig-kali
+#| fig-cap: "Kalibreringskurve basert på DNA-stigen."
+
+library(readxl)
+
+dat <- read_excel("data/resultat_dna_analyse.xlsx")
+
+# lage dataramme for å finne avstand og molekylærvekt
+
+ladder <- data.frame(dist = c(36, 59.5, 86.5,
+                              119.5, 159.5, 208.5,
+                              269.5, 351.5, 396.5,
+                              455.5, 521.5, 599.5, 701.5),
+                     mw = c(1000, 900, 800, 
+                            700, 600, 500, 
+                            400, 300, 250, 
+                            200, 150, 100, 50))
+
+# lage ny dataramme med ukjente variabler
+
+unknown <- data.frame(dist = c(258.5, 262.5, 265.5, 335.5))
+
+
+# lage en kalibreringsmodell ved hjelp av stigen
+
+library(tidyverse)
+
+ggplot(data = data.frame(x = c(36, 59.5, 86.5,
+                              119.5, 159.5, 208.5,
+                              269.5, 351.5, 396.5,
+                              455.5, 521.5, 599.5, 701.5), 
+                         y = c(1000, 900, 800, 
+                            700, 600, 500, 
+                            400, 300, 250, 
+                            200, 150, 100, 50)), 
+       aes(x, y)) + geom_point() +
+  
+  geom_smooth(method = "lm", formula = y ~ poly(x, 2), 
+                    color = "green", se = FALSE)+
+  
+  scale_y_continuous(limits = c(0, 1000)) +
+  
+  scale_x_continuous(limits = c(0, 750))
+```
+
+```{r, echo=FALSE, results='hide'}
+# Fit the model
+cal <- lm(log(mw) ~ dist, data = ladder)
+
+# Check model performance, R^2 should be ~ 1.
+summary(cal)
+
+# Estimate molecular weights from migration distances
+preds <- exp(predict(cal, newdata = unknown)) 
+```
+
+
+### Resultater
+
+I analysen av PCR-produktene ble det fremstilt at DNA-fragmentene i brønn 1 (prøve 1) kunne vise til estimert båndstørrelse på 407 bp, i brønn 2 (prøve 2) viste til fragmentstørrelse på 401bp. Over til brønn 3 (prøve 3) ble det oppdaget to fragmenter, med størrelse på 396 og 296 bp. Resultatene ble ble beregnet basert på kalibreringskurven som ble fremstilt ved DNA-stigen- Fragmentstørrelse viser til migrasjonsmøntser som ble observert i gelanalysen. 
+
+```{r}
+#| label: tbl-DNA
+#| tbl-cap: "Resultater fra PCR-analyse: Estimert båndstørrelse for DNA-fragmenter basert på agarosegelelektroforese."
+
+# Last inn nødvendig pakke
+library(gt)
+
+# Opprette data
+resultater <- tibble(
+  Brønn = c(1, 2, 3),
+  `Båndstørrelse (bp)` = c("407", "401", "396, 296")
+)
+
+# Lage en tabell med gt
+resultater %>%
+  gt() %>%
+  tab_header(
+    title = "Resultater fra PCR-analyse"
+  ) %>%
+  cols_label(
+    Brønn = "Brønn",
+    `Båndstørrelse (bp)` = "Båndstørrelse (bp)"
+  ) %>%
+  fmt_number(
+    columns = everything(),
+    decimals = 0
+  )
+```
+
+
+### Diskusjon 
+
+Denne analysen viser at ingen av DNA-fragmentene var av den forventede størrelsen 413 bp (R/R) eller 318 bp (X/X) (@Schadock2015). Fragmentstørrelsene i brønn en og 2 er rett i nærhet av genotypen R/R, brønn 3 derimot kan indikere mot en heterozygot genotype (R/X) (@Schadock2015). Avviket oppdaget i analysen kan forklares med ulike faktorer, og inkluderer tekniske feil eller menneskelig svikt under gjennomføring av forsøket. 
+
+Tekniske feil som kan medvirke til avviket er kvalitet på gelbildet, og kan bidra til usikkerhet av målingene. Ved bilde oppløsning som ikke er tilfredsstillende, kan det bli mer utfordrende å oppdage tilstrekkelig kontrast for å kunne båndenes plassering presist. 
+
+Menneskelige feil er en essensiell faktor som kan påvirke utfall av resultat. Pipeteres det feil mengder eller unøyaktig, vil dette medvirke til variasjon i konsentrasjonen av DNA, og dette kan videre påvirke amplifiseringen. Ved elektroforesen er det essensielt å få like konsentrasjoner DNA-prøve i hver brønn. Ved variasjon i konsetrasjonen av DNA-prøve, vil dette kunne medvirke til båndenes intensitet og plassering. Vår evne til å tolke gelbildet uten digitale verktøy være medvirkende til feiltolkninger av resultat. 
+
+
+## Del 3: Tolkning av regresjonsmodell
+
+### Introduksjon
+
+Muskulære adaptasjoner påført av trening påvirkes av individets genetikk og miljømessige faktorer. I musklene våre kan vi finne noe som kalles muskelcellekjerner (myonuclei), disse befinner seg i muskelfibrene, og haar en essensiell rolle for regulering av musklenes proteinsyntese, og derfor også sentralt for vår evne til kraftutvikling og styrken vår. Mengden myonuclei i type-II fibre er derfor svært viktig. Disse muskelfibrene har en bedre egenskap til "Rate of Force Development" (RFD), og er ansett som gunstige for også maksimal styrke [@mcardle2014, kap 22]. Mcardle forteller at det er noe uklart hvor mye treningserfaring vil påvirke antallet myonuclei. Derfor skal det undersøkes om det finnes en lineær sammenheng mellom antallet myonuclei i type-II fibre og treningsalder. 
+
+### Metode
+
+For å kunne undersøke sammenheng mellom antall myonuclei i type-II fibre og treningsalder (antall år med systematisk trening), ble variablene `FAST_NUCLEI_T1` og `TRAINING_AGE` i datasettet `hypertrofi` fra `exscidata` undersøkt. Det ble utført en lineær regresjon, tatt i betraktining at denne metoden egnes godt når vi skal undersøke en potensiell lineær relasjon mellom en avhengig variabel, og en uavhengig variabel [@RN2902, s.128-129].
+
+Første steg var å filtrere datasettet, dette ble gjort for å eksludere observasjoner med manglende verdier. Det ble kun inkludert de relevante verdiene for påfølgende analyse. Videre ble dataene visualisert ved gjennom et scatterplott og en tilhørende regresjonslinje. Regresjonslinjen viser oss en indikasjon på hvordan variablene relateres til hverandre. Konfidensintervallet rundt linjen reflekterer usikkerhet i modellen. 
+
+```{r}
+#| label: fig-plot-training-age-myonuclei
+#| fig-cap: "Sammenheng mellom treningalder og myonuclei per fiber CSA i Type-II"
+
+
+# Laster inn nødvendige biblioteker
+library(exscidata)
+library(tidyverse)
+library(gt)
+library(broom)
+
+# Laster inn data
+data("hypertrophy")
+
+# Filtrerer ut NA-verdier før du velger variabler
+ds <- hypertrophy %>%
+  filter(!is.na(TRAINING_AGE) & !is.na(FAST_NUCLEI_T1)) %>%
+  select(PARTICIPANT, GROUP, TRAINING_AGE, FAST_NUCLEI_T1)
+
+# Plotter data uten NA-verdier
+ds %>% 
+  ggplot(aes(TRAINING_AGE, FAST_NUCLEI_T1)) +
+  geom_point(size = 2, fill = "red") +
+  geom_smooth(method = "lm", se = TRUE) +
+  labs(
+    title = "Sammenheng mellom treningserfaring og myonuklei",
+    x = "Treningsår", 
+    y = "Myonuklei per fiber CSA i Type II") +
+  theme_minimal()
+```
+
+### resultat
+Tabellen under oppsummerer statistiske parametre fra den lineære modellen, inklusivt estimert koeffisienten, standardfeil t-verdi og p-verdi. Denne statistiske innsikten gir oss et mer presist bilde vedrørende styrken og usikkerheten til sammenhengen av begge variabler. 
+
+``` {r, results ='asis'}
+#| label: tbl-regresjon
+#| tbl-cap: "Sammenheng mellom treningserfaring og myonuklei per muskelfiber type-II "
+
+# Lager lineær modell med ds uten NA-verdier
+mod1 <- lm(FAST_NUCLEI_T1 ~ TRAINING_AGE, data = ds)
+
+# Henter ut koeffisienter og deres statistikker
+model_summary <- tidy(mod1)
+
+# Tilpasser p-verdier og runder av, og fjerner interceptet
+model_summary <- model_summary %>%
+  mutate(
+    term = ifelse(term == "(Intercept)", "Intercept (Konstantledd)", "Treningserfaring (år)"),
+    p.value = ifelse(p.value < 0.001, "< 0.001", round(p.value, 3)),
+    estimate = round(estimate, 3),
+    std.error = round(std.error, 3),
+    statistic = round(statistic, 3)
+  ) %>%
+  # Filtrer ut interceptet
+  filter(term != "Intercept (Konstantledd)")
+  # Velger å filtrere ut intercept da det ikkje er aktuelt når vi kun skal se om
+  # det er en lineær sammenheng mellom dei to variablene
+
+# Lager regresjonstabell med forklarende radnavn
+regression_table <- model_summary %>%
+  select(term, estimate, std.error, statistic, p.value) %>%
+  gt() %>%
+  fmt_auto() %>%
+  cols_label(
+    term = "Term",
+    estimate = "Estimert koeffisient",
+    std.error = "Standardfeil",
+    statistic = md("*t*-verdi"),
+    p.value = md("*p*-verdi")
+  ) %>%
+  tab_source_note(
+    source_note = "Notat: p-verdier mindre enn 0.05 anses som statistisk signifikante."
+  )
+
+# Vis resultatene
+regression_table
+```
+
+
+### Diskusjon
+
+Tabellen visualiserer verdiene for estimert koeffisient, standardfeil, t-verdi og p-verdi. Den estimerte koeffisienten til treningsår viser antydninger til at FAST_NUCLEI_T1 reduseres med 0.008 per år. Denne nedgangen er riktig nok svak, og standardfeil er ganske stor sammenlignet med koeffisienten. Dette kan tyde på usikkerheter ved estimatet [@RN2902 s.230-232] 
+
+Standardfeil viser hvor mye en estimert koeffisient kan forventes å variere mellom et ulikt utvalg av data [@RN2902 s.230-232].Til tross for at selve standardfeilen er lav i dette tilfellet, vil forholdet mellom standardfeil og koeffisient være mest relevant for tolkningen. Det vil si at selv en lav standardfeil kan være av signifikans om koeffisienten også er liten. Det vil dermed være gunstig å være varsom med å tolke estimatet som helt presist, på bakgrunn av at det kan være koblet usikkerhet til resultatet. 
+
+T-verdien viser til hvor mange standardavvik estimert koeffisient avviker fra null. En høy t-verdi, positiv eller negativ, bidrar til å styrke argumentet for at koeffisienten er signifikant forskjell fra null [@RN2902 s.275-276]. I dette tilfellet er t-verdien 0,104, og det gir indikasjon på at vi ikke har et tilfredstillende grunnlag for å kunne konkludere med en signifikant lineær korrelasjon mellom myonuclei funnet i type-II fibre og treningsalder. 
+
+P-verdien gir oss en måte for å kunne vurdere t-verdien våre har statistisk signifikans. Den viser sannsynligheten for å få en teststatistikk som er like ekstrem, eller mer, enn hva observert t-verdi viser til, men dette forutsetter at nullhypotese er korrekt [@RN2902 s.264-265]. Analysen vår kunne vise til en p-verdi på 0,918. Med andre ord, det tilsier en 91,8% sannsynlighet for å observere en tilsvarende t-verdi, om det ikke skulle eksistere noen differanse på tvers av variablene. Med en slik høy p-verdi har vi dermed ingen grunnlag til å forkaste nullhypotese, og kan ikke konkludere med en signifikant effekt av treningsalder på myonuclei i type-II fibre. Videre viser dette ikke til at det er noen lineær sammenheng mellom disse variablene. 
+
+Det må påpekes at p-verdi utelukkende forteller den statistiske signifikansen, og produserer ikke noen informasjon om størrelsen av effekten, eller den praktiske betydningen [@RN2902 s.285]. Når det blir tatt et grunnlag på et mindre datasett, slik som vårt tilfelle, kan det forekomme høy p-verdi til tross for en reell effekt. Dette er forårsaket at mindre utvalg ofte kan medføre lavere statistisk styrke, og gir en redusert evne til å oppdage reelle sammenhenger [@RN2902 s.285]. 
+
+Denne undersøkelsen har prøvd å kartlegge korrelasjon mellom treningserfaring og antall myonuclei i hver type-II fiber. Det ble ikke oppdaget en signifikant lineær korrelasjon av disse variablene. Til tross for at p-verdien viser til lav statistisk signifikans, må det understrekes at dette kan være forårsaket for lite datagrunnlag.

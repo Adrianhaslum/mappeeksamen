@@ -1,0 +1,24 @@
+project:
+  type: book
+
+book:
+  title: "Mappeeksamen IDR4000"
+  author: "kandidat 513"
+  date: "2024-11-22"
+  chapters:
+    - index.qmd
+    - 01-reliabilitet.qmd
+    - 02-regression-models.qmd
+    - 03-statistical-inference.qmd
+    - 04-study-design.qmd
+    - 05-repeated-measurements.qmd
+    - 06-vitenskapsteori.qmd
+    - 07-laboratory-report.qmd
+    - references.qmd
+
+bibliography: references/bib-final.bib
+
+format: pdf
+
+
+
