@@ -274,25 +274,155 @@ o Cover blot in clear plastic wrap
 
 - Collect image on Gel Doc
 
-### Resultater 
+## Resultater 
 
 Vi benyttet oss av WB-analyse for å kvantifisere total p70S6K og fosforlyert p70S6K, slik at vi kunne undersøke fosforyleringsnivået til proteinet i vastus lateralis til de ulike testpersonene. Intensiteten til fosforylert p70S6K (p-p70) og total p70S6K (t-p70) ble normalisert mot totalprotein fra membran blottet. Fosforyleringsnivået ble beregnet som forholdet mellom p-p70 og t-70 (p-p70 / t-p70). Intensitetsverdiene som presenteres i tabellene er basert på optisk tetthet fra Western blot-bildene. Verdiene representerer relative signalstyrker og har ingen absolutt måleenhet, da kalibreringskurve ikke ble benyttet. For å korrigere for variasjoner i proteinmengde mellom brønnene, f.eks grunnet pipeteringsfeil eller feil i total protein-målinger, ble intensitetene normalisert mot total proteinmengde (membran blot).
 
+I tabellen under fremvises de normaliserte intensitetsverdiene for fosforylert (p-p0) og total (t-p70) p70S6K for både høyre og venstre bein til hver enkelt forsøksperson, basert på membran blottet. Graden av fosforylering ble beregnet som forholdet mellom normalisert p-p70 og t-p70. Graden av fosforylering (p-p70/t-p70) varierte mellom de ulike prøvene, hvor vi målte høyest fosforyleringsgrad i trent bein på forsøksperson T (1.550), og minst grad av fosforylering i utrent bein på forsøksperson LØ (0.920). 
 
 
+```{r, out.width="\\textwidth"}
+#| warning: false
+#| message: false
+#| echo: false
+#| tbl-cap: "Intensitetsverdiene for p-p70S6K og t-p70S6K fra densiometer analysen i ImageJ."
 
 
+library(dplyr)
+library(tidyr)
+library(gt)
+
+# Opprett datasettet med originale kolonnenavn
+data <- data.frame(
+  Testperson = c("HE", "HE", "T", "T", "LØ"),
+  Bein = c("Venstre", "Høgre", "Venstre", "Høgre", "Høgre"),
+  "Membran blot (p-p70)" = c(16530.472, 10135.430, 11187.966, 7012.388, 14791.037),
+  "Membran blot (t-p70)" = c(15516.158, 13009.673, 12917.480, 10868.744, 13617.430),
+  "p-p70 (raw)" = c(4276.447, 4238.276, 4457.276, 4148.447, 4249.861),
+  "t-p70 (raw)" = c(4276.447, 4238.276, 4457.276, 4148.447, 4249.861),
+  "p-p70 (norm.)" = c(0.2587, 0.4182, 0.3985, 0.5916, 0.2872),
+  "t-p70 (norm.)" = c(0.2756, 0.3257, 0.3449, 0.3816, 0.3122),
+  Fosforyleringsnivå = c(0.939, 1.284, 1.155, 1.550, 0.920),
+  check.names = FALSE # Hindrer R fra å endre kolonnenavnene
+)
+
+# Bytt kolonner og rader
+data_long <- data %>%
+  pivot_longer(
+    cols = -c(Testperson, Bein),
+    names_to = "Variabel",
+    values_to = "Verdi"
+  ) %>%
+  pivot_wider(
+    names_from = c(Testperson, Bein),
+    values_from = Verdi
+  )
+
+# Lag ny gt-tabell med de transformerte dataene
+gt_table <- data_long %>%
+  gt() %>%
+  tab_header(
+    title = "Western Blot analyse av fosforyleringsnivå"
+  ) %>%
+  cols_align(
+    align = "center",
+    columns = everything()
+  ) %>%
+  fmt_number(
+    columns = everything(),
+    decimals = 2,
+    sep_mark = " " # Bruker mellomrom som tusenskiller
+  ) %>%
+  tab_source_note(
+    source_note = "Merk: Tallene er råverdier uten en spesifikk enhet."
+  ) %>%
+  tab_style(
+    style = list(
+      cell_fill(color = "lightblue")
+    ),
+    locations = cells_column_labels(columns = everything())
+  )
+
+# Vis tabellen
+gt_table
+```
+
+Gjennomsnittlig aktivitet til p70S6K på gruppenivå var henholdsvis 1.17 ± 0.25. Trent bein viste til større grad av fosforylering (1.43 ± 0.15) sammenliknet med utrent bein (0.99 ± 0.09). Basert på disse funnene, indikerer det at den mekaniske belastningen påført av treningen medvirket til økt aktivering av mTORC1-signalveien. 
+
+Total p70S6K (t-p70) viste til marginal forskjell mellom gruppene. Gjennomsnittet for hele gruppen var 0.33 ± 0.04, mens det trente beinet hadde et noe høyere nivå (0.35 ± 0.04) enn det utrente beinet (0.31 ± 0.03).
+
+Fosforylert p70S6K (p-p70) ble det oppdaget mer tydelig differanse. Gjennomsnittet for hele gruppen var 0.39 ± 0.12, hvor nivået for trent bein henholdsvis var (0.50 ± 0.12) signifikant høyere sammenliknet utrent bein (0.31 ± 0.07). Resultatene støtter observasjonen om at trening spesifikt øker fosforylering av p70S6K, og aktiverer mTORC1-signalveien. 
+
+```{r, out.width="\\textwidth"}
+#| warning: false
+#| message: false
+#| echo: false
+#| label: tbl-resultater
+#| tbl-cap: "Deskriptiv data fra densiometri analysen."
+
+library(gt)
+
+# Opprett datasettet med gj.sn ± SD format
+data_result <- data.frame(
+  Parameter = c("t-p70 (norm.)", "p-p70 (norm.)", "Fosforyleringsnivå"),
+  `Hele gruppen (n = 20)` = c(
+    "0.33 ± 0.04",
+    "0.39 ± 0.12",
+    "1.17 ± 0.25"
+  ),
+  `Høyre bein (n = 10)` = c(
+    "0.35 ± 0.04",
+    "0.50 ± 0.12",
+    "1.43 ± 0.15"
+  ),
+  `Venstre bein (n = 10)` = c(
+    "0.31 ± 0.03",
+    "0.31 ± 0.07",
+    "0.99 ± 0.09"
+  ),
+  check.names = FALSE
+)
+
+# Lag tabellen med `gt`
+gt_table <- data_result %>%
+  gt() %>%
+  tab_header(
+    title = "Tabell 2: Gjennomsnittlige nivåer av total og fosforylert p70S6K",
+    subtitle = "Nivåene er presentert som gjennomsnitt ± standardavvik (SD)"
+  ) %>%
+  cols_align(
+    align = "center",
+    columns = everything()
+  ) %>%
+  cols_label(
+    Parameter = "Parameter",
+    `Hele gruppen (n = 20)` = "Hele gruppen\n(n = 20)",
+    `Høyre bein (n = 10)` = "Trent bein\n(n = 10)",
+    `Venstre bein (n = 10)` = "Utrent bein\n(n = 10)"
+  ) %>%
+  tab_style(
+    style = list(
+      cell_text(weight = "bold")
+    ),
+    locations = cells_column_labels(columns = everything())
+  )
+
+# Vis tabellen
+gt_table
+```
 
 
+## Diskusjon
 
+De ulike intensitetsverdiene gir oss et bilde av p70S6K-aktiviteten i prøvene. Til tross for at absolutt kvantifisering ikke ble utført i denne rapporten, indikerer det en økt grad av fosforylering økt aktivitet av mTORC1-signalveiene, og i følge Atherton & Smith (2012) er denne signalveien svært sentral for proteinsyntese. Våre resultater viser til økt grad av fosforylering av p70S6k i det trente beinet sammenliknet med det utrente, som er med på å dokumentere effekten av trening til å stimulere molekylære mekanismer som fremmer muskulære adaptasjoner. Aktiveringen virker å være tidsbestemt, og reduseres med tid etter eksponering for treningen.
 
+Variasjonen av fosforyleringsnivåene kan tenkes å være forårsaket av både biologiske faktorer og tekniske faktorer. Differansen mellom høyre og venstre bein var mer konsistente sammenliknet variasjonen på gruppenivå, og dette kan tyde til en spesifikk effekt av trening. Det er viktig å nevne at mangelen på kalibreringskurve vil virke begrensende for funnene i denne undersøkelsen, ettersom det blir mer utfordrende å kvantifisere absolutt proteinmengde.
 
+## Konklusjon
 
+Resultatene indikerer en asymetrisk aktivering av mTORC1-signalveien mellom høyre og venstre bein, og kan forklares ved agt det ene beinet ble trent før muskelbiopsi. Styrketrening resulterte i en akutt økning av fosforyleringsnivå av p70S6K, og understreker trening sin evne til å stimulere molekylære mekansimer som øker proteinsyntese og muskulære adaptasjoner. 
 
-
-
-
-
+Resultatene må likevel tolkes med varsomhet på grunn av metodiske begrensinger som bakgrunnsstøy på blottet, operatørfeil, ujevn proteinoverføring, og mangel på en kalibreringskurve. 
 
 
 
