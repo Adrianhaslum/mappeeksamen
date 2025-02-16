@@ -1,36 +1,51 @@
 # Philosophy of science
 
-1.	Ifølge Hume er det umulig å rasjonelt begrunne bruken av induksjon. Hva er argumentet for denne konklusjonen? Gi en innvending mot ett av premissene i Humes argument og prøv å svare på denne innvendingen på Humes vegne.
+## Ifølge Hume er det umulig å rasjonelt begrunne bruken av induksjon. Hva er argumentet for denne konklusjonen? Gi en innvending mot ett av premissene i Humes argument og prøv å svare på denne innvendingen på Humes vegne.
+
+### Humes svar
 
 Hva er induksjon? Induksjon kan for eksempel være generaliseringer, hvor det generaliseres utifra noe som er blitt observert til å fortelle om noe som enda ikke har skjedd. Induksjon kan også være en slutning til den beste forklaringen, hvor det utgjøres en hypotese eller påstand på bakgrunn tilgjengelig informasjon (Holmen, 2024). 
-David Hume var en av flere vitenskapsfilosofer som stilte seg kritisk til denne typen «vitenskap», og ifølge han selv kunne ikke induksjon forsvares med logikk eller rasjonelt, ettersom et induktivt argument forutsetter uniformitetsprinsippet (Vassend, 2024). Dette skyldtes at han mente at det hverken var logisk eller rasjonelt å trekke antagelser eller konklusjoner for fremtiden basert på fortiden.
-Videre utdypet kan dette forklares med at vi må forvente en kontinuitet i naturen, og at den følger stabile lover. Ifølge Hume kan som nevnt fremtiden ikke forklares basert på fortiden, og at det ikke ligger noe rasjonelt bak dette, og ifølge Hume er en slik antagelse et sirkulært argument eller begrunnelse. Med andre ord så blir det da brukt induksjon for å forsvare bruken av induksjon. Hume mener også at grunnen til at vi stoler på induksjon er fordi det er noe vi er vandt med, ikke på grunn av at det er noe rasjonell begrunnelse (Vassend, 2024). 
+David Hume var en av flere vitenskapsfilosofer som stilte seg kritisk til denne typen «vitenskap», og ifølge han selv kunne ikke induksjon forsvares med logikk eller rasjonelt, ettersom et induktivt argument forutsetter uniformitetsprinsippet (Vassend, 2024).
 
-En normalisert innvending mot Humes argument er; til tross for at induksjon i seg selv ikke kan begrunnes rasjonelt, så kan det fremdeles rettferdiggjøres. Et eksempel er ved å si at solen kommer til å være der neste dag, så må vi stole på at den vil være der på bakgrunn av at den har vært der i milliarder av år. Til tross for at det er manglende bekreftende rasjonell begrunnelse, så er det liten grunn til å ikke stole på at solen kommer til å være der i morgen. 
+Videre utdypet kan dette forklares med at vi må forvente en kontinuitet i naturen, og at den følger stabile lover. Ifølge Hume kan som nevnt fremtiden ikke forklares basert på fortiden, og at det ikke ligger noe rasjonelt bak dette, og ifølge Hume vil argumenter for en slik antagelse være sirkulære.  Hume mente at all menneskelig erfaring og kunnskap er basert på sansing og vanedannelse, og ikke på nødvendige eller rasjonelle forbindelser (Vassend, 2024). Årsaken til Hume mente dette var at vi tror på induksjon, så er dette på grunn av en vane og ikke en rasjonell nødvendighet. Når vi ser noe skje ved gjentatte tilfeller, utvikles det en forventning om at de samme skal skje også i fremtiden, og dette skyldes en psykologisk mekanisme i oss mennesker. (Vassend, 2024). 
 
-Humes sitt svar på denne innvendingen kunne potensielt erkjent at det ville vært en sannsynlighet for at solen var der i morgen også, men at dette ikke kunne forsvares hverken rasjonelt eller logisk. Og til tross for at induksjon kan være av nytte på enkelte områder, at det til tider fungerer, så betyr det derimot ikke at dette kan baseres på valide argumenter. På bakgrunn av dette ville han nok også trolig hevdet at innvendingen ikke tar til rette for hans hoved argument om at induksjon ikke kan rettferdiggjøres logisk og rasjonelt. 
+### Innvending mot Humes argument
+
+En vanlig innvending mot Humes sitt argument er; til tross for at induksjon i seg selv ikke kan begrunnes rasjonelt, så kan det fremdeles begrunnes. Et eksempel på denne innvendingen er ved å si at solen kommer til å være der neste dag, fordi den alltid har vært der i milliarder av år.  
+
+### Innvending på vegne av Hume 
+
+Humes sitt svar på denne innvendingen kunne mulig erkjent at det ville vært en reell sannsynlighet for at solen var der i morgen også, men at det ikke kan forsvares hverken rasjonelt eller logisk. Og til tross for at induksjon kan være av nytte på enkelte områder, og det fungerer enkelte ganger, så betyr det derimot ikke at dette kan baseres på valide argumenter. På bakgrunn av dette ville han nok også trolig hevdet at innvendingen ikke tar til rette for hans hoved argument om at induksjon ikke kan rettferdiggjøres logisk og rasjonelt, og at argumentet baseres på uniformitetsantagelser.
+
+### Konklusjon
+
+Hume mener at vi ikke kan ha noen rasjonell begrunnelse til å kunne stole på induksjon, men vi stoler på det fordi mennesker er psykologisk «programmert» til dette gjennom erfaringer og vane. Hume avviste ikke at induksjon kan fungere i praksis, men poengterte at vi ikke kunne bevise at det alltid vil fungere (Vassend 2024; Holmen 2024).
 
 
 
-2.	Gi en kort beskrivelse av falsifikasjonisme og si litt om hvorfor Popper var motivert til å utvikle denne teorien. Presenter så ett problem med teorien og vurder hvorvidt problemet kan løses.
+## Gi en kort beskrivelse av falsifikasjonisme og si litt om hvorfor Popper var motivert til å utvikle denne teorien. Presenter så ett problem med teorien og vurder hvorvidt problemet kan løses.
+
+### Falsifikasjonisme 
 
 Hva er falsifikasjonisme? Falsifikasjon er et sentralt begrep innenfor vitenskapsfilosofi, og var en meget sentral del i synspunktene til Karl Popper. 
-Karl Popper videreførte deler av Humes ideologi rundt induksjonsproblemet, og mente at det ikke kunne løses. Induksjon var ikke noe mer enn et mislykket prosjekt, hvor Popper strakk det så langt som å sammenlikne det å ettersøke bekreftelse på en hypotese med pseudovitenskap. Videre mente han at en vitenskapelig påstand er kun vitenskapelig om den er falsifiserbar. At en hypotese er falsifiserbar betyr at gjennom deduksjon så kan den undersøkes empirisk, dersom en hypotese motbevises, skal den enten forkastes eller revideres. Dersom en påstand eller hypotese ikke ble falsifisert under den empiriske utprøvelsen, så blir den fremdeles ikke bekreftet ifølge Popper (Vassend, 2024). 
+Karl Popper videreførte deler av Humes ideologi rundt induksjonsproblemet, og mente at det ikke kunne løses. Induksjon var ikke noe mer enn et mislykket prosjekt ifølge Popper, hvor han så på det som pseudovitenskap. Hans begrunnelse for denne påstanden var at induksjon baseres på å ettersøke bekreftelse på en hypotese. Videre mente han at en vitenskapelig påstand er kun vitenskapelig om den er falsifiserbar. 
 
-Poppers motivasjon for utvikling av denne teorien stammer fra hans ønske om å finne en løsning på det såkalte avgrensningsproblemet. Avgrensningsproblemet bygger på grunnlaget til hvordan man kan differensiere mellom faktisk vitenskap og pseudovitenskap (Haraldsen, 2021). 
-Det oppstår dog noen utfordringer med falsifikasjonisme, disse utfordringene kommer til lys når falsifikasjonisme kobles opp mot påstander rundt sannsynlighet. Det er et mangfold av vitenskapelige teorier som tar i bruk sannsynligheter, men disse kan ikke alltid forventes å være falsifiserbare. Utfordringer kommer da av at ifølge Popper, så er en påstand kun vitenskapelig hvis den er falsifiserbar, og det uten unntak. På bakgrunn av dette utsagnet kan ikke sannsynlighetsteorier bli sett på som vitenskapelige teorier (Vassend, 2024). Men det finnes områder innenfor vitenskapen hvor sannsynlighetsteorier er svært sentrale, spesielt om vi ser i retningen kvantemekanikk.
+At en hypotese er falsifiserbar så kan den gjennom deduksjon undersøkes empirisk, dersom en hypotese motbevises, skal den enten forkastes eller revideres. Dersom en påstand eller hypotese ikke ble falsifisert under den empiriske utprøvelsen, så blir den fremdeles ikke bekreftet ifølge Popper (Vassend, 2024). Poppers motivasjon for utvikling av denne teorien stammer fra hans ønske om å finne en løsning på det såkalte avgrensningsproblemet. Avgrensningsproblemet bygger på grunnlaget til hvordan man kan differensiere mellom faktisk vitenskap og pseudovitenskap (Haraldsen, 2021). 
 
-Kvantemekanikk omhandler fenomener som ikke kan observeres med det nakne øyet, det omhandler fenomener som skjer på atomnivå, og kvantemekanikkens mange essensielle prediksjoner uttrykkes gjennom sannsynligheter. Og motstridende til Poppers utsagn, har mange av sannsynlighetsteoriene innenfor kvantemekanikk vist å være vitenskapelige, da de kan settes på prøve gjennom empiriske tester som samsvarer med prediksjonene (linder, 2019; Vassend, 2024). 
+### Utfordringer ved falsifikasjonisme
 
-Dette var noe Popper også la merke til, og kom derfor med en løsning til utfordringen, en konvensjon hvor vi forkaster en hypotese der det observeres et utfall som er usannsynlig (Vassend, 2024).
-Videre utfordring for falsifikasjonisme er idealet om at deduktiv logikk er logikken som styrer vitenskapen, men kan denne alene danne et komplett bilde? Duhem mente at deduktiv logikk alene ikke kunne gjøre dette, og ved en mislykket prediksjon kan det være en viss nødvendighet for induksjon.
+Det oppstår dog noen utfordringer med falsifikasjonisme, disse utfordringene kommer til lys når falsifikasjonisme kobles opp mot påstander rundt sannsynlighet. Det er et mangfold av vitenskapelige teorier som tar i bruk sannsynligheter, men disse kan ikke alltid forventes å være falsifiserbare. Utfordringer kommer da av at ifølge Popper, så er en påstand kun vitenskapelig hvis den er falsifiserbar, og det uten unntak. På bakgrunn av dette utsagnet kan ikke sannsynlighetsteorier bli sett på som vitenskapelige teorier. Grunnlaget hans for dette var at sannsynlighetsteorier ikke gir oss absolutte utsagn som kan direkte falsifiseres, de forteller kun at noe kan skje med en viss prosentandel (Vassend, 2024). 
 
-Kan da problemet løses? Det viser seg at hverken induksjon eller deduksjon er helt feilfrie metoder innenfor vitenskapen, en mulig løsning kan dermed å benytte oss av de viktigere elementene i begge teorier. I praksis kan dette gjøres ved å utforme en støttehypotese som har sine egne prediksjoner opp mot hoved hypotesen og dens prediksjoner. Dermed kan vi lettere identifisere hvor feil oppstår, uavhengig om den ligger i teorien eller ikke. På bakgrunn av dette kan det tilsynelatende virke som at falsifikasjon kan i enkelte tilfeller kreve former for bekreftelse, uavhengig av Poppers ståsted (Vassend, 2024). 
+Men det finnes områder innenfor vitenskapen hvor sannsynlighetsteorier er svært sentrale, spesielt om vi ser i retningen kvantemekanikk. Kvantemekanikk omhandler fenomener som ikke kan observeres med det nakne øyet, det inntreffer på et atomnivå, og kvantemekanikkens mange essensielle prediksjoner uttrykkes gjennom sannsynligheter. Og motstridende til Poppers utsagn, har mange av sannsynlighetsteoriene innenfor kvantemekanikk vist å være vitenskapelige, da de kan settes på prøve gjennom empiriske tester som samsvarer med prediksjonene (linder, 2019; Vassend, 2024). 
 
-Referanser:
+Dette var noe Popper også la merke til, og kom derfor med en løsning til utfordringen, en konvensjon hvor vi forkaster en hypotese der det observeres et utfall som er usannsynlig: Vi avviser hypotesen om vi observerer et utfall som er svært usannsynlig, for eksempel ved statistisk signifikanstesting (0,05). Dette resulterer i en praktisk løsning, men kommer med en utfordring hvor det kan føre til tvil om konvensjonen er tilfeldig, og at falsifikasjonisme da baseres på subjektive valg (Vassend, 2024).
 
-Holmen, H. A. (5. mars. 2024). Induksjonsproblemet
-Hentet fra: https://snl.no/induksjonsproblemet 
-Vassend, O. (2024). «Vitenskapsfilosofi dag 2». Forelesning ved Høgskolen i innlandet. 
-Linder. J. (14. nov. 2019). Kvantemekanikk.
- Hentet fra: https://snl.no/kvantemekanikk 
+### kan utfordringen løses?
+
+Duhem mente at det eneste et eksperiment kan lære oss, er at blant forslagene som brukes til å kunne forutsi fenomenet og for å kunne bekrefte om det ville blitt produsert, vil det være minimum en feil. Men hvor denne feilen oppstår vil ikke eksperimentet kunne fortelle oss. For å kunne løse denne utfordringen kan vi innføre en form for bekreftelse ved bruk av induksjon, hvor vi også analyserer støttehypotesene for å kunne predikere om feilen skyldes teorien eller ikke. Denne løsningen krever noe induktiv tenkning, som Popper utrykte stor skepsis til. Men det kan vise seg at falsifikasjonisme kanskje har et visst behov for bekreftelser i praksis (Vassend, 2024). 
+
+### Konklusjon
+
+Falsifikasjonisme viser seg å være et godt verktøy for å kunne separere reell vitenskap med pseudovitenskap, men ideologien er ikke uten utfordringer. Utfordringene kommer til lys særdeles ved sanssynlighetspåstander og komplekse teorier. Løsningen til Popper gir oss et delvis svar på utfordringene, men det viser også at falsifikasjonisme alene ikke er tilfredsstillende. Når vi da skal utøve vitenskap i praksis, vil vitenskapen også kreve en form for støtte fra metoder som induksjon og bekreftelse. 
+
+
