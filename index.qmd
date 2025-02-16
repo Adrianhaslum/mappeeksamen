@@ -19,4 +19,4 @@ Mappeeksamen består av følgende deler:
 
 I templatet organiseres hver del som et kapittel. 
 
-Referanser finner du sist i dokumenetet (eks. [@RN2902])
+Referanser finner du sist i dokumenetet 

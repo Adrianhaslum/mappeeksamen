@@ -1,7 +1,7 @@
 ---
 title: "Statistical Inference"
-author: "Kandidat 513"
-date: "2024-11-22"
+author: "Kandidat 103"
+date: "2025-02-17"
 bibliography: resources/references.bib
 ---
 

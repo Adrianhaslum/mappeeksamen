@@ -1,6 +1,6 @@
 ---
 title: "Assignement-5-Study-Design"
-author: "Kandidat 513" 
+author: "Kandidat 103" 
 format: pdf
 editor: visual
 bibliography: resources/references.bib

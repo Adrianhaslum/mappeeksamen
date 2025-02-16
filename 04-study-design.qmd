@@ -1,6 +1,6 @@
 ---
 title: "Assignement-4-Study-Design"
-author: "Kandidat 513" 
+author: "Kandidat 103" 
 bibliography: resources/references.bib
 ---
 

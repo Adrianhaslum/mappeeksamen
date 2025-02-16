@@ -1,6 +1,6 @@
 ---
 title: "Laboratory Report"
-author: "Kandidat 513"
+author: "Kandidat 103"
 bibliography: resources/references.bib
 format: pdf
 ---
